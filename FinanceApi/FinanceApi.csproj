@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAL/Interface/" />
-    <Folder Include="DAL/Repository/" />
+    <Folder Include="Services/" />
   </ItemGroup>
 
 </Project>
