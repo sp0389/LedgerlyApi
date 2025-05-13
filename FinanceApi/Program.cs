@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using FinanceApi.DAL.Core;
+using FinanceApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddServiceGroup();
 
 builder.Services.AddControllers();
 

@@ -1,0 +1,6 @@
+@FinanceApi_HostAddress = http://localhost:5007
+
+GET {{FinanceApi_HostAddress}}/transaction/
+Accept: application/json
+
+###

@@ -33,12 +33,10 @@ public class TransactionRepository : ITransactionRepository
             .ToListAsync();
     }
 
-    public async Task<Transaction> AddTransactionAsync(Transaction transaction)
+    public async Task<bool> AddTransactionAsync(Transaction transaction)
     {
         await _context.AddAsync(transaction);
-        await _context.SaveChangesAsync();
-
-        return transaction;
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> RemoveTransactionById(int transactionId)
@@ -47,9 +45,9 @@ public class TransactionRepository : ITransactionRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<Transaction> UpdateTransactionAsync(int transactionId, Transaction transaction)
+    public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
     {
-        Transaction existingTransaction = await _context.Transactions.FindAsync(transactionId) 
+        Transaction existingTransaction = await _context.Transactions.FindAsync(transaction.Id) 
             ?? throw new ApplicationException("Could not find transaction with provided transaction ID.");
 
         _context.Entry(existingTransaction).CurrentValues.SetValues(transaction);
