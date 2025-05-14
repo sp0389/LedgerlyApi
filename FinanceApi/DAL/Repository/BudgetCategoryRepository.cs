@@ -13,18 +13,16 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         _context = context;
     }
 
-    public async Task<BudgetCategory> AddBudgetCategoryAsync(BudgetCategory budgetCategory)
+    public async Task<bool> AddBudgetCategoryAsync(BudgetCategory budgetCategory)
     {
         await _context.BudgetCategories.AddAsync(budgetCategory);
-        await _context.SaveChangesAsync();
-
-        return budgetCategory;
+        return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<BudgetCategory>UpdateBudgetCategoryAsync(int budgetCategoryId, BudgetCategory budgetCategory)
+    public async Task<BudgetCategory>UpdateBudgetCategoryAsync(BudgetCategory budgetCategory)
     {
         BudgetCategory existingBudgetCategory = await _context.BudgetCategories
-            .FindAsync(budgetCategoryId) ?? throw new ApplicationException("No budget category was found with that ID.");
+            .FindAsync(budgetCategory.Id) ?? throw new ApplicationException("No budget category was found with that ID.");
 
         _context.Entry(existingBudgetCategory).CurrentValues.SetValues(budgetCategory);
         await _context.SaveChangesAsync();

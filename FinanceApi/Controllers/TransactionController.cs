@@ -9,9 +9,11 @@ namespace FinanceApi.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;
-        public TransactionController(ITransactionRepository transactionRepository)
+        private readonly ILogger<ITransactionRepository> _logger;
+        public TransactionController(ITransactionRepository transactionRepository, ILogger<ITransactionRepository> logger)
         {
             _transactionRepository = transactionRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -44,12 +46,14 @@ namespace FinanceApi.Controllers
 
                     if (!result)
                     {
+                        _logger.LogInformation("Created transaction successfully.");
                         return Ok(transaction);
                     }
                 }
 
                 catch (ApplicationException ex)
                 {
+                    _logger.LogError(ex, "There was an error creating the transaction.");
                     ModelState.AddModelError("", ex.Message);
                 }
             }
@@ -67,11 +71,13 @@ namespace FinanceApi.Controllers
                     Transaction updatedTransaction = await _transactionRepository
                         .UpdateTransactionAsync(transaction);
 
+                    _logger.LogInformation("Transaction was updated successfully.");
                     return Ok(updatedTransaction);
                 }
 
                 catch(ApplicationException ex)
                 {
+                    _logger.LogError(ex, "There was an error updating the transaction.");
                     ModelState.AddModelError("", ex.Message);
                 }
             }
@@ -88,12 +94,14 @@ namespace FinanceApi.Controllers
 
                 if (!result)
                 {
+                    _logger.LogInformation("Transaction was deleted successfully.");
                     return Ok();
                 }
             }
 
             catch (ApplicationException ex)
             {
+                _logger.LogError(ex, "There was an error deleting the transaction.");
                 ModelState.AddModelError("", ex.Message);
             }
 
