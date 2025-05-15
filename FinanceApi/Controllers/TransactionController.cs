@@ -1,6 +1,7 @@
 using FinanceApi.Models;
 using FinanceApi.DAL.Interface;
 using Microsoft.AspNetCore.Mvc;
+using FinanceApi.Services;
 
 namespace FinanceApi.Controllers
 {
@@ -8,19 +9,18 @@ namespace FinanceApi.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly ITransactionRepository _transactionRepository;
         private readonly ILogger<ITransactionRepository> _logger;
-        public TransactionController(ITransactionRepository transactionRepository, ILogger<ITransactionRepository> logger)
+        private readonly ITransactionService _transactionService;
+        public TransactionController(ITransactionService transactionService, ILogger<ITransactionRepository> logger)
         {
-            _transactionRepository = transactionRepository;
+            _transactionService = transactionService;
             _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllTransactions()
         {
-            IEnumerable<Transaction> transactions = await _transactionRepository
-                .GetAllTransactionsAsync();
+            IEnumerable<Transaction> transactions = await _transactionService.GetAllTransactions();
 
             return Ok(transactions);
         }
@@ -29,9 +29,9 @@ namespace FinanceApi.Controllers
         [Route("{categoryId}")]
         public async Task<IActionResult> GetTransactionsByCategory(int categoryId)
         {
-            IEnumerable<Transaction> categoryTransactions = await _transactionRepository
-                .GetTransactionsByCategoryIdAsync(categoryId);
-
+            IEnumerable<Transaction> categoryTransactions = await _transactionService
+                .GetTransactionsByCategoryId(categoryId);
+            
             return Ok(categoryTransactions);
         }
 
@@ -42,7 +42,7 @@ namespace FinanceApi.Controllers
             {
                 try
                 {
-                    bool result = await _transactionRepository.AddTransactionAsync(transaction);
+                    bool result = await _transactionService.AddTransaction(transaction);
 
                     if (!result)
                     {
@@ -68,8 +68,8 @@ namespace FinanceApi.Controllers
             {
                 try
                 {
-                    Transaction updatedTransaction = await _transactionRepository
-                        .UpdateTransactionAsync(transaction);
+                    Transaction updatedTransaction = await _transactionService
+                        .UpdateTransaction(transaction);
 
                     _logger.LogInformation("Transaction was updated successfully.");
                     return Ok(updatedTransaction);
@@ -90,7 +90,7 @@ namespace FinanceApi.Controllers
         {
             try
             {
-                bool result = await _transactionRepository.RemoveTransactionById(transactionId);
+                bool result = await _transactionService.RemoveTransactionById(transactionId);
 
                 if (!result)
                 {

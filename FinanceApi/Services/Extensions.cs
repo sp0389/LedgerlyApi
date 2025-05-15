@@ -10,6 +10,7 @@ public static class Extensions
     {
         services.AddScoped<IBudgetCategoryRepository, BudgetCategoryRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionService, TransactionService>();
 
         return services;
     }

@@ -39,9 +39,11 @@ public class TransactionRepository : ITransactionRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> RemoveTransactionById(int transactionId)
+    public async Task<bool> RemoveTransactionByIdAsync(int transactionId)
     {
-        _context.Remove(transactionId);
+        Transaction transaction = await _context.Transactions.FindAsync(transactionId)
+            ?? throw new ApplicationException("Could not find transaction with provided transaction ID");
+        _context.Transactions.Remove(transaction);
         return await _context.SaveChangesAsync() > 0;
     }
 
