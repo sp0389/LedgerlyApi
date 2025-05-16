@@ -3,6 +3,7 @@ using FinanceApi.Models;
 using FinanceApi.DAL.Core;
 using FinanceApi.DAL.Interface;
 using Microsoft.EntityFrameworkCore;
+using FinanceApi.Models.DTO;
 
 namespace FinanceApi.DAL.Repository;
 public class TransactionRepository : ITransactionRepository
@@ -33,9 +34,13 @@ public class TransactionRepository : ITransactionRepository
             .ToListAsync();
     }
 
-    public async Task<bool> AddTransactionAsync(Transaction transaction)
+    public async Task<bool> AddTransactionAsync(TransactionDTO transaction)
     {
-        await _context.AddAsync(transaction);
+        Transaction t = new();
+        _context.Attach(t);
+        _context.Entry(t).CurrentValues.SetValues(transaction);
+
+        await _context.Transactions.AddAsync(t);
         return await _context.SaveChangesAsync() > 0;
     }
 
@@ -47,7 +52,7 @@ public class TransactionRepository : ITransactionRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
+    public async Task<Transaction> UpdateTransactionAsync(TransactionDTO transaction)
     {
         Transaction existingTransaction = await _context.Transactions.FindAsync(transaction.Id) 
             ?? throw new ApplicationException("Could not find transaction with provided transaction ID.");

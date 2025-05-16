@@ -5,7 +5,7 @@ namespace FinanceApi.DAL.Interface;
 
 public interface IBudgetCategoryRepository
 {
-    Task<bool> AddBudgetCategoryAsync(BudgetCategory budgetCategory);
-    Task<BudgetCategory>UpdateBudgetCategoryAsync(BudgetCategory budgetCategory);
+    Task<bool> AddBudgetCategoryAsync(BudgetCategoryDTO budgetCategory);
+    Task<BudgetCategory>UpdateBudgetCategoryAsync(BudgetCategoryDTO budgetCategory);
     Task<bool> RemoveBudgetCategoryAsync(int budgetCategoryId);
 }

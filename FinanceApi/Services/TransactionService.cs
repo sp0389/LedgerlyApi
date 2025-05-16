@@ -1,6 +1,7 @@
 using System;
 using FinanceApi.DAL.Interface;
 using FinanceApi.Models;
+using FinanceApi.Models.DTO;
 
 namespace FinanceApi.Services;
 
@@ -28,24 +29,12 @@ public class TransactionService : ITransactionService
         return await _transactionRepository.GetTransactionsByCategoryIdAsync(categoryId);
     }
 
-    public async Task<bool> AddTransaction(Transaction transaction)
+    public async Task<bool> AddTransaction(TransactionDTO transaction)
     {
-        Transaction t = new()
-        {
-            Amount = transaction.Amount,
-            Date = transaction.Date,
-            IsRecurring = transaction.IsRecurring,
-            EndDate = transaction.EndDate,
-            Occurrences = transaction.Occurrences,
-            Description = transaction.Description,
-            TransactionType = transaction.TransactionType,
-            BudgetCategoryId = transaction.BudgetCategory.Id,
-        };
-
-        return await _transactionRepository.AddTransactionAsync(t);
+        return await _transactionRepository.AddTransactionAsync(transaction);
     }
 
-    public async Task<Transaction> UpdateTransaction(Transaction transaction)
+    public async Task<Transaction> UpdateTransaction(TransactionDTO transaction)
     {
         return await _transactionRepository.UpdateTransactionAsync(transaction);
     }

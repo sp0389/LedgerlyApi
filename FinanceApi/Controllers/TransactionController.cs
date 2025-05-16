@@ -1,7 +1,7 @@
 using FinanceApi.Models;
 using FinanceApi.DAL.Interface;
 using Microsoft.AspNetCore.Mvc;
-using FinanceApi.Services;
+using FinanceApi.Models.DTO;
 
 namespace FinanceApi.Controllers
 {
@@ -36,7 +36,7 @@ namespace FinanceApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTransaction(Transaction transaction)
+        public async Task<IActionResult> CreateTransaction(TransactionDTO transaction)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace FinanceApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTransaction(Transaction transaction)
+        public async Task<IActionResult> UpdateTransaction(TransactionDTO transaction)
         {
             if (ModelState.IsValid)
             {

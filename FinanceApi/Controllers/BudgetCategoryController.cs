@@ -8,25 +8,25 @@ namespace FinanceApi.Controllers
     [ApiController]
     public class BudgetCategoryController : ControllerBase
     {
-        private readonly IBudgetCategoryRepository _budgetCategoryRepository;
+        private readonly IBudgetCategoryService _budgetCategoryService;
         private readonly ILogger<IBudgetCategoryRepository> _logger;
 
-        public BudgetCategoryController(IBudgetCategoryRepository budgetCategoryRepository, 
+        public BudgetCategoryController(IBudgetCategoryService budgetCategoryService, 
             ILogger<IBudgetCategoryRepository> logger)
         {
-            _budgetCategoryRepository = budgetCategoryRepository;
+            _budgetCategoryService = budgetCategoryService;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBudgetCategory(BudgetCategory budgetCategory)
+        public async Task<IActionResult> CreateBudgetCategory(BudgetCategoryDTO budgetCategory)
         {
             if(ModelState.IsValid)
             {
                 try
                 {
-                    bool result = await _budgetCategoryRepository
-                        .AddBudgetCategoryAsync(budgetCategory);
+                    bool result = await _budgetCategoryService
+                        .AddBudgetCategory(budgetCategory);
                     
                     if(!result)
                     {
@@ -46,14 +46,14 @@ namespace FinanceApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateBudgetCategory(BudgetCategory budgetCategory)
+        public async Task<IActionResult> UpdateBudgetCategory(BudgetCategoryDTO budgetCategory)
         {
             if(ModelState.IsValid)
             {
                 try
                 {
-                    BudgetCategory updatedBudgetCategory = await _budgetCategoryRepository
-                        .UpdateBudgetCategoryAsync(budgetCategory);
+                    BudgetCategory updatedBudgetCategory = await _budgetCategoryService
+                        .UpdateBudgetCategory(budgetCategory);
                     
                     _logger.LogInformation("Budget category was updated successfully.");
                     return Ok(updatedBudgetCategory);
@@ -74,8 +74,8 @@ namespace FinanceApi.Controllers
         {
             try
             {
-                bool result = await _budgetCategoryRepository
-                    .RemoveBudgetCategoryAsync(budgetCategoryId);
+                bool result = await _budgetCategoryService
+                    .RemoveBudgetCategory(budgetCategoryId);
                 
                 if (!result)
                 {
