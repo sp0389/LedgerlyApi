@@ -13,6 +13,6 @@ public class TransactionDTO
     public int Occurrences { get; set; }
     public string Description { get; set; } = default!;
     public TransactionType TransactionType { get; set; }
-    public int BudgetCategoryId { get; set; }
+    public string BudgetCategoryString { get; set; } = default!;
     public BudgetCategory BudgetCategory { get; set; } = default!;
 }

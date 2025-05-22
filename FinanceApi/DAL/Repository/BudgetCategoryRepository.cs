@@ -16,7 +16,6 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
     public async Task<bool> AddBudgetCategoryAsync(BudgetCategoryDTO budgetCategory)
     {
         BudgetCategory bc = new();
-        _context.Attach(bc);
         _context.Entry(bc).CurrentValues.SetValues(budgetCategory);
 
         await _context.BudgetCategories.AddAsync(bc);

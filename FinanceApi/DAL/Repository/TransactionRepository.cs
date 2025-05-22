@@ -1,11 +1,13 @@
 using System;
 using FinanceApi.Models;
+using FinanceApi.Models.Enum;
 using FinanceApi.DAL.Core;
 using FinanceApi.DAL.Interface;
 using Microsoft.EntityFrameworkCore;
 using FinanceApi.Models.DTO;
 
 namespace FinanceApi.DAL.Repository;
+
 public class TransactionRepository : ITransactionRepository
 {
     private readonly ApplicationDbContext _context;
@@ -36,8 +38,14 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<bool> AddTransactionAsync(TransactionDTO transaction)
     {
+        if (transaction.BudgetCategoryString != null && Enum.TryParse(transaction.BudgetCategoryString, out CategoryType categoryType))
+        {
+            BudgetCategory bc = await _context.BudgetCategories
+                .FirstAsync(bc => bc.CategoryType == categoryType);
+            transaction.BudgetCategory = bc;
+        }
+
         Transaction t = new();
-        _context.Attach(t);
         _context.Entry(t).CurrentValues.SetValues(transaction);
 
         await _context.Transactions.AddAsync(t);
@@ -54,7 +62,7 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<Transaction> UpdateTransactionAsync(TransactionDTO transaction)
     {
-        Transaction existingTransaction = await _context.Transactions.FindAsync(transaction.Id) 
+        Transaction existingTransaction = await _context.Transactions.FindAsync(transaction.Id)
             ?? throw new ApplicationException("Could not find transaction with provided transaction ID.");
 
         _context.Entry(existingTransaction).CurrentValues.SetValues(transaction);
