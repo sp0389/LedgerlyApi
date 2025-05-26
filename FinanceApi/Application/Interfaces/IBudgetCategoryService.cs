@@ -1,6 +1,7 @@
-﻿using FinanceApi.Models;
+﻿using FinanceApi.Domain.Entities;
+using FinanceApi.Application.DTO;
 
-namespace FinanceApi.DAL.Interface;
+namespace FinanceApi.Application.Interfaces;
 
 public interface IBudgetCategoryService
 {

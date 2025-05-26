@@ -1,4 +1,4 @@
-namespace FinanceApi.Models.Enum;
+namespace FinanceApi.Domain.Enums;
 
 public enum TransactionType
 {

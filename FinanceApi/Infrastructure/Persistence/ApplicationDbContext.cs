@@ -1,8 +1,7 @@
-using System;
-using FinanceApi.Models;
+using FinanceApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApi.DAL.Core;
+namespace FinanceApi.Infrastructure.Persistence;
 
 public class ApplicationDbContext : DbContext
 {

@@ -1,14 +1,14 @@
 using System;
-using FinanceApi.Models;
-using FinanceApi.Models.DTO;
-namespace FinanceApi.DAL.Interface;
+using FinanceApi.Domain.Entities;
+
+namespace FinanceApi.Domain.Interfaces;
 
 public interface ITransactionRepository
 {
     Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
     Task<Transaction> GetTransactionByIdAsync(int transactionId);
     Task<IEnumerable<Transaction>> GetTransactionsByCategoryIdAsync(int categoryId);
-    Task<bool> AddTransactionAsync(TransactionDTO transaction);
+    Task<bool> AddTransactionAsync(Transaction transaction);
     Task<bool> RemoveTransactionByIdAsync(int transactionId);
-    Task<Transaction> UpdateTransactionAsync(TransactionDTO transaction);
+    Task<Transaction> UpdateTransactionAsync(Transaction transaction);
 }

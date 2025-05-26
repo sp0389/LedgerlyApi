@@ -1,9 +1,7 @@
-using System;
-using FinanceApi.DAL.Core;
-using FinanceApi.DAL.Interface;
-using FinanceApi.Models;
+using FinanceApi.Domain.Interfaces;
+using FinanceApi.Domain.Entities;
 
-namespace FinanceApi.DAL.Repository;
+namespace FinanceApi.Infrastructure.Persistence;
 
 public class BudgetCategoryRepository : IBudgetCategoryRepository
 {
@@ -13,16 +11,13 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         _context = context;
     }
 
-    public async Task<bool> AddBudgetCategoryAsync(BudgetCategoryDTO budgetCategory)
+    public async Task<bool> AddBudgetCategoryAsync(BudgetCategory budgetCategory)
     {
-        BudgetCategory bc = new();
-        _context.Entry(bc).CurrentValues.SetValues(budgetCategory);
-
-        await _context.BudgetCategories.AddAsync(bc);
+        await _context.BudgetCategories.AddAsync(budgetCategory);
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<BudgetCategory>UpdateBudgetCategoryAsync(BudgetCategoryDTO budgetCategory)
+    public async Task<BudgetCategory>UpdateBudgetCategoryAsync(BudgetCategory budgetCategory)
     {
         BudgetCategory existingBudgetCategory = await _context.BudgetCategories
             .FindAsync(budgetCategory.Id) ?? throw new ApplicationException("No budget category was found with that ID.");

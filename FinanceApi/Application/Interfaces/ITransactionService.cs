@@ -1,7 +1,7 @@
-using System;
-using FinanceApi.Models;
-using FinanceApi.Models.DTO;
-namespace FinanceApi.DAL.Interface;
+using FinanceApi.Domain.Entities;
+using FinanceApi.Application.DTO;
+
+namespace FinanceApi.Application.Interfaces;
 
 public interface ITransactionService
 {
@@ -11,4 +11,6 @@ public interface ITransactionService
     Task<bool> AddTransaction(TransactionDTO transaction);
     Task<bool> RemoveTransactionById(int transactionId);
     Task<Transaction> UpdateTransaction(TransactionDTO transaction);
+    Task<bool> AddRepeatingMonthlyTransaction(TransactionDTO transaction);
+    Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDTO transaction);
 }

@@ -1,8 +1,10 @@
-using FinanceApi.DAL.Interface;
-using FinanceApi.Models;
+using FinanceApi.Application.DTO;
+using FinanceApi.Application.Interfaces;
+using FinanceApi.Domain.Entities;
+using FinanceApi.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceApi.Controllers
+namespace FinanceApi.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

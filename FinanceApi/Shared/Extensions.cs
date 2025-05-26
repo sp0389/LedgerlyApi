@@ -1,8 +1,10 @@
 using System;
-using FinanceApi.DAL.Interface;
-using FinanceApi.DAL.Repository;
+using FinanceApi.Domain.Interfaces;
+using FinanceApi.Infrastructure.Persistence;
+using FinanceApi.Application.Interfaces;
+using FinanceApi.Application.Services;
 
-namespace FinanceApi.Services;
+namespace FinanceApi.Shared;
 
 public static class Extensions
 {

@@ -1,9 +1,10 @@
-using FinanceApi.Models;
-using FinanceApi.DAL.Interface;
+using FinanceApi.Application.DTO;
+using FinanceApi.Application.Interfaces;
+using FinanceApi.Domain.Entities;
+using FinanceApi.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using FinanceApi.Models.DTO;
 
-namespace FinanceApi.Controllers
+namespace FinanceApi.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,7 +35,8 @@ namespace FinanceApi.Controllers
             
             return Ok(categoryTransactions);
         }
-
+        
+        //TODO: Add unique routing
         [HttpPost]
         public async Task<IActionResult> CreateTransaction(TransactionDTO transaction)
         {
@@ -44,10 +46,10 @@ namespace FinanceApi.Controllers
                 {
                     bool result = await _transactionService.AddTransaction(transaction);
 
-                    if (!result)
+                    if (result)
                     {
                         _logger.LogInformation("Created transaction successfully.");
-                        return Ok(transaction);
+                        return Ok();
                     }
                 }
 
@@ -58,6 +60,56 @@ namespace FinanceApi.Controllers
                 }
             }
 
+            return BadRequest();
+        }
+        
+        //TODO: Add unique routing
+        [HttpPost]
+        public async Task<IActionResult> CreateMonthlyTransaction(TransactionDTO transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    bool result = await _transactionService.AddRepeatingMonthlyTransaction(transaction);
+
+                    if (result)
+                    {
+                        _logger.LogInformation("Successfully created the monthly transactions.");
+                        return Ok();
+                    }
+                }
+
+                catch (ApplicationException ex)
+                {
+                    _logger.LogError(ex, "There was an error creating the monthly transactions.");
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBiWeeklyTransaction(TransactionDTO transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    bool result = await _transactionService.AddRepeatingBiWeeklyTransaction(transaction);
+
+                    if (result)
+                    {
+                        _logger.LogInformation("Successfully created the bi-weekly transactions.");
+                        return Ok();
+                    }
+                }
+                catch (ApplicationException ex)
+                {
+                    _logger.LogError(ex, "There was an error creating the bi-weekly transactions.");
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
             return BadRequest();
         }
 
@@ -92,7 +144,7 @@ namespace FinanceApi.Controllers
             {
                 bool result = await _transactionService.RemoveTransactionById(transactionId);
 
-                if (!result)
+                if (result)
                 {
                     _logger.LogInformation("Transaction was deleted successfully.");
                     return Ok();

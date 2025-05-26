@@ -1,7 +1,7 @@
-﻿using System;
-using FinanceApi.Models.Enum;
+﻿using FinanceApi.Domain.Enums;
+using FinanceApi.Domain.Entities;
 
-namespace FinanceApi.Models.DTO;
+namespace FinanceApi.Application.DTO;
 
 public class TransactionDTO
 {
@@ -12,7 +12,7 @@ public class TransactionDTO
     public DateTime? EndDate { get; set; }
     public int Occurrences { get; set; }
     public string Description { get; set; } = default!;
+    public IList<DayOfWeek> SelectedDays { get; set; } = new List<DayOfWeek>();
     public TransactionType TransactionType { get; set; }
-    public string BudgetCategoryString { get; set; } = default!;
     public BudgetCategory BudgetCategory { get; set; } = default!;
 }

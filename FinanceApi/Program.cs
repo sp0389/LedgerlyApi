@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using FinanceApi.DAL.Core;
-using FinanceApi.Services;
+using FinanceApi.Infrastructure.Persistence;
+using FinanceApi.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
-﻿using System;
-using FinanceApi.Models.Enum;
+﻿using FinanceApi.Domain.Enums;
+using FinanceApi.Domain.Entities;
 
-namespace FinanceApi.Models;
+namespace FinanceApi.Application.DTO;
 
 public class BudgetCategoryDTO
 {
