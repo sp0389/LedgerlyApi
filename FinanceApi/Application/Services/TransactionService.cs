@@ -49,10 +49,10 @@ public class TransactionService : ITransactionService
 
     public async Task<bool> AddRepeatingMonthlyTransaction(TransactionDTO transactionDto)
     {
-        Monthly monthlyTransaction = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        IEnumerable<DateTime> dates = monthlyTransaction.GenerateDates(transactionDto.SelectedDays);
+        MonthlySchedule monthlySchedule = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
+        RecurringSchedule schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays);
 
-        foreach (DateTime date in dates)
+        foreach (DateTime date in schedule)
         {
             Transaction transaction = CreateRepeatingTransaction(transactionDto, date);
             bool result = await _transactionRepository.AddTransactionAsync(transaction);
@@ -67,11 +67,10 @@ public class TransactionService : ITransactionService
 
     public async Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDTO transactionDto)
     {
-        //TODO: End Date check
-        BiWeekly biWeeklyTransaction = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        IEnumerable<DateTime> dates = biWeeklyTransaction.GenerateDates(transactionDto.SelectedDays);
+        BiWeeklySchedule biWeeklySchedule = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
+        RecurringSchedule schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays);
 
-        foreach (DateTime date in dates)
+        foreach (DateTime date in schedule)
         {
             Transaction transaction = CreateRepeatingTransaction(transactionDto, date);
 

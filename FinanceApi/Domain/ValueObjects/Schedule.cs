@@ -1,26 +1,26 @@
 namespace FinanceApi.Domain.ValueObjects;
 
-public abstract class Scheduler
+public abstract class Schedule
 {
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public int Occurrences { get; set; }
 }
-public abstract class Repeating : Scheduler
+public abstract class RepeatingSchedule : Schedule
 {
-    public Repeating(DateTime startDate, DateTime endDate, int occurrences)
+    public RepeatingSchedule(DateTime startDate, DateTime endDate, int occurrences)
     {
         StartDate = startDate;
         EndDate = endDate;
         Occurrences = occurrences;
     }
-    public abstract IList<DateTime> GenerateDates(IList<DayOfWeek> chosenDays);
+    public abstract RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays);
 }
-public class BiWeekly : Repeating
+public class BiWeeklySchedule : RepeatingSchedule
 {
-    public BiWeekly(DateTime startDate, DateTime endDate, int occurrences)
+    public BiWeeklySchedule(DateTime startDate, DateTime endDate, int occurrences)
         : base(startDate, endDate, occurrences) { }
-    public override IList<DateTime> GenerateDates(IList<DayOfWeek> chosenDays)
+    public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
         DateTime currentDate = StartDate;
         List<DateTime> scheduledDates = new();
@@ -35,7 +35,7 @@ public class BiWeekly : Repeating
                 }
                 currentDate = currentDate.AddDays(14);
             }
-            return scheduledDates;
+            return new RecurringSchedule(scheduledDates);
         }
 
         else if (currentDate <= EndDate)
@@ -49,16 +49,16 @@ public class BiWeekly : Repeating
                 currentDate = currentDate.AddDays(14);
             }
         }
-        return scheduledDates;
+        return new RecurringSchedule(scheduledDates);
     }
 }
 
-public class Monthly : Repeating
+public class MonthlySchedule : RepeatingSchedule
 {
-    public Monthly(DateTime startDate, DateTime endDate, int occurrences)
+    public MonthlySchedule(DateTime startDate, DateTime endDate, int occurrences)
         : base(startDate, endDate, occurrences) { }
 
-    public override IList<DateTime> GenerateDates(IList<DayOfWeek> chosenDays)
+    public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
         DateTime currentDate = StartDate;
         List<DateTime> scheduledDates = new();
@@ -74,7 +74,7 @@ public class Monthly : Repeating
 
                 currentDate = currentDate.AddMonths(1);
             }
-            return scheduledDates;
+            return new RecurringSchedule(scheduledDates);
         }
 
         else if (StartDate <= EndDate)
@@ -90,6 +90,6 @@ public class Monthly : Repeating
                 currentDate = currentDate.AddMonths(1);
             }
         }
-        return scheduledDates;
+        return new RecurringSchedule(scheduledDates);
     }
 }
