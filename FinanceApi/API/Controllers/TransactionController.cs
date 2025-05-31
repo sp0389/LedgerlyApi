@@ -36,9 +36,9 @@ namespace FinanceApi.API.Controllers
             return Ok(categoryTransactions);
         }
         
-        //TODO: Add unique routing
         [HttpPost]
-        public async Task<IActionResult> CreateTransaction(TransactionDTO transaction)
+        [Route("/CreateTransaction")]
+        public async Task<IActionResult> CreateTransaction(TransactionDto transaction)
         {
             if (ModelState.IsValid)
             {
@@ -63,9 +63,9 @@ namespace FinanceApi.API.Controllers
             return BadRequest();
         }
         
-        //TODO: Add unique routing
         [HttpPost]
-        public async Task<IActionResult> CreateMonthlyTransaction(TransactionDTO transaction)
+        [Route("CreateMonthlyTransaction")]
+        public async Task<IActionResult> CreateMonthlyTransaction(TransactionDto transaction)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,8 @@ namespace FinanceApi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBiWeeklyTransaction(TransactionDTO transaction)
+        [Route("CreateBiWeeklyTransaction")]
+        public async Task<IActionResult> CreateBiWeeklyTransaction(TransactionDto transaction)
         {
             if (ModelState.IsValid)
             {
@@ -114,7 +115,7 @@ namespace FinanceApi.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTransaction(TransactionDTO transaction)
+        public async Task<IActionResult> UpdateTransaction(TransactionDto transaction)
         {
             if (ModelState.IsValid)
             {
@@ -138,6 +139,7 @@ namespace FinanceApi.API.Controllers
         }
 
         [HttpDelete]
+        [Route("{transactionId:int}")]
         public async Task<IActionResult> DeleteTransaction(int transactionId)
         {
             try

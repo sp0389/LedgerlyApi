@@ -3,7 +3,7 @@ using FinanceApi.Domain.Entities;
 
 namespace FinanceApi.Application.DTO;
 
-public class BudgetCategoryDTO
+public class BudgetCategoryDto
 {
     public int Id { get; set; }
     public decimal Amount { get; set; }

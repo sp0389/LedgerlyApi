@@ -21,7 +21,7 @@ namespace FinanceApi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBudgetCategory(BudgetCategoryDTO budgetCategory)
+        public async Task<IActionResult> CreateBudgetCategory(BudgetCategoryDto budgetCategory)
         {
             if(ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace FinanceApi.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateBudgetCategory(BudgetCategoryDTO budgetCategory)
+        public async Task<IActionResult> UpdateBudgetCategory(BudgetCategoryDto budgetCategory)
         {
             if(ModelState.IsValid)
             {

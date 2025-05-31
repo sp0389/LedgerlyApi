@@ -5,7 +5,7 @@ namespace FinanceApi.Application.Interfaces;
 
 public interface IBudgetCategoryService
 {
-    Task<bool> AddBudgetCategory(BudgetCategoryDTO budgetCategory);
-    Task<BudgetCategory> UpdateBudgetCategory(BudgetCategoryDTO budgetCategory);
+    Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategory);
+    Task<BudgetCategory> UpdateBudgetCategory(BudgetCategoryDto budgetCategory);
     Task<bool> RemoveBudgetCategory(int budgetCategoryId);
 }

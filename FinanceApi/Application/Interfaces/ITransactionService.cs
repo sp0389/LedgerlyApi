@@ -8,9 +8,9 @@ public interface ITransactionService
     Task<IEnumerable<Transaction>> GetAllTransactions();
     Task<Transaction> GetTransactionsById(int transactionId);
     Task<IEnumerable<Transaction>> GetTransactionsByCategoryId(int categoryId);
-    Task<bool> AddTransaction(TransactionDTO transaction);
+    Task<bool> AddTransaction(TransactionDto transaction);
     Task<bool> RemoveTransactionById(int transactionId);
-    Task<Transaction> UpdateTransaction(TransactionDTO transaction);
-    Task<bool> AddRepeatingMonthlyTransaction(TransactionDTO transaction);
-    Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDTO transaction);
+    Task<Transaction> UpdateTransaction(TransactionDto transaction);
+    Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transaction);
+    Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transaction);
 }

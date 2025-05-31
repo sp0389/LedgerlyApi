@@ -35,4 +35,11 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         _context.BudgetCategories.Remove(budgetCategory);
         return await _context.SaveChangesAsync() > 0;
     }
+
+    public async Task<BudgetCategory> GetBudgetCategoryAsync(string budgetCategoryName)
+    {
+        BudgetCategory budgetCategory = await _context.BudgetCategories.FindAsync(budgetCategoryName)
+                ?? throw new ApplicationException("No budget category was found with the specified name.");
+        return budgetCategory; 
+    }
 }

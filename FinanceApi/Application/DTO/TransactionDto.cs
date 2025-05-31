@@ -1,9 +1,8 @@
 ﻿using FinanceApi.Domain.Enums;
-using FinanceApi.Domain.Entities;
 
 namespace FinanceApi.Application.DTO;
 
-public class TransactionDTO
+public class TransactionDto
 {
     public int Id { get; set; }
     public decimal Amount { get; set; }
@@ -14,5 +13,5 @@ public class TransactionDTO
     public string Description { get; set; } = default!;
     public IList<DayOfWeek> SelectedDays { get; set; } = new List<DayOfWeek>();
     public TransactionType TransactionType { get; set; }
-    public BudgetCategory BudgetCategory { get; set; } = default!;
+    public string BudgetCategoryString {get; set;} = default!;
 }
