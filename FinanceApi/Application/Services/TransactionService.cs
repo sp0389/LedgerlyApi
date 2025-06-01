@@ -89,8 +89,8 @@ public class TransactionService : ITransactionService
 
     private async Task<Transaction> CreateSingleTransaction(TransactionDto transactionDto)
     {
-        BudgetCategory existingBudgetCategory =
-            await _budgetCategoryRepository.GetBudgetCategoryAsync(transactionDto.BudgetCategoryString);
+        BudgetCategory budgetCategory = await _budgetCategoryRepository
+            .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
         
         Transaction transaction = new()
         {
@@ -99,7 +99,7 @@ public class TransactionService : ITransactionService
             EndDate = transactionDto.EndDate,
             Description = transactionDto.Description,
             TransactionType = transactionDto.TransactionType,
-            BudgetCategory = existingBudgetCategory
+            BudgetCategory = budgetCategory
         };
         
         return transaction;
@@ -107,9 +107,9 @@ public class TransactionService : ITransactionService
 
     private async Task<Transaction> CreateRepeatingTransaction(TransactionDto transactionDto, DateTime date)
     {
-        BudgetCategory existingBudgetCategory = await _budgetCategoryRepository
-            .GetBudgetCategoryAsync(transactionDto.BudgetCategoryString);
-        
+        BudgetCategory? budgetCategory = await _budgetCategoryRepository
+            .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
+            
         Transaction transaction = new()
         {
             Amount = transactionDto.Amount,
@@ -117,7 +117,7 @@ public class TransactionService : ITransactionService
             EndDate = transactionDto.EndDate,
             Description = transactionDto.Description,
             TransactionType = transactionDto.TransactionType,
-            BudgetCategory = existingBudgetCategory
+            BudgetCategory = budgetCategory 
         };
         
         return transaction;

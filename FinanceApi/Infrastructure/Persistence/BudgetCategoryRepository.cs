@@ -1,5 +1,6 @@
 using FinanceApi.Domain.Interfaces;
 using FinanceApi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApi.Infrastructure.Persistence;
 
@@ -36,10 +37,14 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<BudgetCategory> GetBudgetCategoryAsync(string budgetCategoryName)
+    public async Task<IEnumerable<BudgetCategory>> GetAllBudgetCategoriesAsync()
     {
-        BudgetCategory budgetCategory = await _context.BudgetCategories.FindAsync(budgetCategoryName)
-                ?? throw new ApplicationException("No budget category was found with the specified name.");
-        return budgetCategory; 
+        return await _context.BudgetCategories.ToListAsync();
+    }
+
+    public async Task<BudgetCategory> GetBudgetCategoryByIdAsync(int budgetCategoryId)
+    {
+        BudgetCategory? budgetCategory = await _context.BudgetCategories.FindAsync(budgetCategoryId);
+        return budgetCategory!;
     }
 }

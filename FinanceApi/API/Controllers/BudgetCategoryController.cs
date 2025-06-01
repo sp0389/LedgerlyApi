@@ -11,13 +11,22 @@ namespace FinanceApi.API.Controllers
     public class BudgetCategoryController : ControllerBase
     {
         private readonly IBudgetCategoryService _budgetCategoryService;
-        private readonly ILogger<IBudgetCategoryRepository> _logger;
+        private readonly ILogger<IBudgetCategoryService> _logger;
 
         public BudgetCategoryController(IBudgetCategoryService budgetCategoryService, 
-            ILogger<IBudgetCategoryRepository> logger)
+            ILogger<IBudgetCategoryService> logger)
         {
             _budgetCategoryService = budgetCategoryService;
             _logger = logger;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBudgetCategories()
+        {
+            IEnumerable<BudgetCategory> budgetCategories = await _budgetCategoryService.GetAllBudgetCategories();
+            
+            _logger.LogInformation("Returned all budget categories");
+            return Ok(budgetCategories);
         }
 
         [HttpPost]

@@ -14,6 +14,11 @@ public class BudgetCategoryService : IBudgetCategoryService
         _budgetCategoryRepository = budgetCategoryRepository;
     }
 
+    public async Task<IEnumerable<BudgetCategory>> GetAllBudgetCategories()
+    {
+        return await _budgetCategoryRepository.GetAllBudgetCategoriesAsync();
+    }
+
     public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
         BudgetCategory budgetCategory = CreateBudgetCategory(budgetCategoryDto);

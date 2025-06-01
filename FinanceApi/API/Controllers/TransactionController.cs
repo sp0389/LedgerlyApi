@@ -10,9 +10,9 @@ namespace FinanceApi.API.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly ILogger<ITransactionRepository> _logger;
+        private readonly ILogger<ITransactionService> _logger;
         private readonly ITransactionService _transactionService;
-        public TransactionController(ITransactionService transactionService, ILogger<ITransactionRepository> logger)
+        public TransactionController(ITransactionService transactionService, ILogger<ITransactionService> logger)
         {
             _transactionService = transactionService;
             _logger = logger;

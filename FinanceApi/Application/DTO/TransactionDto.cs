@@ -13,5 +13,5 @@ public class TransactionDto
     public string Description { get; set; } = default!;
     public IList<DayOfWeek> SelectedDays { get; set; } = new List<DayOfWeek>();
     public TransactionType TransactionType { get; set; }
-    public string BudgetCategoryString {get; set;} = default!;
+    public int BudgetCategoryId { get; set; }
 }

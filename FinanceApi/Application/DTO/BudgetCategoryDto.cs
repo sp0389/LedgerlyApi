@@ -11,5 +11,4 @@ public class BudgetCategoryDto
     public DateTime EndDate { get; set; }
     public string Description { get; set; } = default!;
     public CategoryType CategoryType { get; set; }
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }
