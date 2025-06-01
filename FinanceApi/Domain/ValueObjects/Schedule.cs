@@ -6,6 +6,7 @@ public abstract class Schedule
     public DateTime EndDate { get; set; }
     public int Occurrences { get; set; }
 }
+
 public abstract class RepeatingSchedule : Schedule
 {
     public RepeatingSchedule(DateTime startDate, DateTime endDate, int occurrences)
@@ -14,27 +15,30 @@ public abstract class RepeatingSchedule : Schedule
         EndDate = endDate;
         Occurrences = occurrences;
     }
+
     public abstract RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays);
 }
+
 public class BiWeeklySchedule : RepeatingSchedule
 {
     public BiWeeklySchedule(DateTime startDate, DateTime endDate, int occurrences)
-        : base(startDate, endDate, occurrences) { }
+        : base(startDate, endDate, occurrences)
+    {
+    }
+
     public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
-        DateTime currentDate = StartDate;
+        var currentDate = StartDate;
         List<DateTime> scheduledDates = new();
 
         if (Occurrences != 0)
         {
-            for (int i = 0; i < Occurrences; i++)
+            for (var i = 0; i < Occurrences; i++)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek))
-                {
-                    scheduledDates.Add(currentDate);
-                }
+                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
                 currentDate = currentDate.AddDays(14);
             }
+
             return new RecurringSchedule(scheduledDates);
         }
 
@@ -42,13 +46,11 @@ public class BiWeeklySchedule : RepeatingSchedule
         {
             while (currentDate <= EndDate)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek))
-                {
-                    scheduledDates.Add(currentDate);
-                }
+                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
                 currentDate = currentDate.AddDays(14);
             }
         }
+
         return new RecurringSchedule(scheduledDates);
     }
 }
@@ -56,24 +58,24 @@ public class BiWeeklySchedule : RepeatingSchedule
 public class MonthlySchedule : RepeatingSchedule
 {
     public MonthlySchedule(DateTime startDate, DateTime endDate, int occurrences)
-        : base(startDate, endDate, occurrences) { }
+        : base(startDate, endDate, occurrences)
+    {
+    }
 
     public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
-        DateTime currentDate = StartDate;
+        var currentDate = StartDate;
         List<DateTime> scheduledDates = new();
 
         if (Occurrences != 0)
         {
-            for (int i = 0; i < Occurrences; i++)
+            for (var i = 0; i < Occurrences; i++)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek))
-                {
-                    scheduledDates.Add(currentDate);
-                }
+                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
 
                 currentDate = currentDate.AddMonths(1);
             }
+
             return new RecurringSchedule(scheduledDates);
         }
 
@@ -83,13 +85,11 @@ public class MonthlySchedule : RepeatingSchedule
 
             while (currentDate <= EndDate)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek))
-                {
-                    scheduledDates.Add(currentDate);
-                }
+                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
                 currentDate = currentDate.AddMonths(1);
             }
         }
+
         return new RecurringSchedule(scheduledDates);
     }
 }

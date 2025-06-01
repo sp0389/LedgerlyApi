@@ -21,13 +21,13 @@ public class BudgetCategoryService : IBudgetCategoryService
 
     public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
-        BudgetCategory budgetCategory = CreateBudgetCategory(budgetCategoryDto);
+        var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
         return await _budgetCategoryRepository.AddBudgetCategoryAsync(budgetCategory);
     }
 
     public async Task<BudgetCategory> UpdateBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
-        BudgetCategory budgetCategory = CreateBudgetCategory(budgetCategoryDto);
+        var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
         return await _budgetCategoryRepository.UpdateBudgetCategoryAsync(budgetCategory);
     }
 
@@ -44,7 +44,7 @@ public class BudgetCategoryService : IBudgetCategoryService
             StartDate = budgetCategoryDto.StartDate,
             EndDate = budgetCategoryDto.EndDate,
             Description = budgetCategoryDto.Description,
-            CategoryType = budgetCategoryDto.CategoryType,
+            CategoryType = budgetCategoryDto.CategoryType
         };
 
         return budgetCategory;

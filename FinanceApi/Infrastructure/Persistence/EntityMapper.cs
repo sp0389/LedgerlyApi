@@ -15,7 +15,7 @@ public class EntityMapper
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<Transaction>(t => 
+        modelBuilder.Entity<Transaction>(t =>
         {
             t.HasOne(t => t.BudgetCategory)
                 .WithMany(bc => bc.Transactions)

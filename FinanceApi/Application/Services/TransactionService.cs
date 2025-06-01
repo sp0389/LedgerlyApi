@@ -11,7 +11,7 @@ public class TransactionService : ITransactionService
     private readonly ITransactionRepository _transactionRepository;
     private readonly IBudgetCategoryRepository _budgetCategoryRepository;
 
-    public TransactionService(ITransactionRepository transactionRepository, 
+    public TransactionService(ITransactionRepository transactionRepository,
         IBudgetCategoryRepository budgetCategoryRepository)
     {
         _transactionRepository = transactionRepository;
@@ -35,13 +35,13 @@ public class TransactionService : ITransactionService
 
     public async Task<bool> AddTransaction(TransactionDto transactionDto)
     {
-        Transaction transaction = await CreateSingleTransaction(transactionDto);
+        var transaction = await CreateSingleTransaction(transactionDto);
         return await _transactionRepository.AddTransactionAsync(transaction);
     }
 
     public async Task<Transaction> UpdateTransaction(TransactionDto transactionDto)
     {
-        Transaction transaction = await CreateSingleTransaction(transactionDto);
+        var transaction = await CreateSingleTransaction(transactionDto);
         return await _transactionRepository.UpdateTransactionAsync(transaction);
     }
 
@@ -52,46 +52,44 @@ public class TransactionService : ITransactionService
 
     public async Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transactionDto)
     {
-        MonthlySchedule monthlySchedule = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        RecurringSchedule schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays);
+        MonthlySchedule monthlySchedule =
+            new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
+        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays);
 
-        foreach (DateTime date in schedule)
+        foreach (var date in schedule)
         {
-            Transaction transaction = await CreateRepeatingTransaction(transactionDto, date);
-            bool result = await _transactionRepository.AddTransactionAsync(transaction);
+            var transaction = await CreateRepeatingTransaction(transactionDto, date);
+            var result = await _transactionRepository.AddTransactionAsync(transaction);
 
-            if (!result)
-            {
-                return false;
-            }
+            if (!result) return false;
         }
+
         return true;
     }
 
     public async Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transactionDto)
     {
-        BiWeeklySchedule biWeeklySchedule = new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        RecurringSchedule schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays);
+        BiWeeklySchedule biWeeklySchedule =
+            new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
+        var schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays);
 
-        foreach (DateTime date in schedule)
+        foreach (var date in schedule)
         {
-            Transaction transaction = await CreateRepeatingTransaction(transactionDto, date);
+            var transaction = await CreateRepeatingTransaction(transactionDto, date);
 
-            bool result = await _transactionRepository.AddTransactionAsync(transaction);
+            var result = await _transactionRepository.AddTransactionAsync(transaction);
 
-            if (!result)
-            {
-                return false;
-            }
+            if (!result) return false;
         }
+
         return true;
     }
 
     private async Task<Transaction> CreateSingleTransaction(TransactionDto transactionDto)
     {
-        BudgetCategory budgetCategory = await _budgetCategoryRepository
+        var budgetCategory = await _budgetCategoryRepository
             .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
-        
+
         Transaction transaction = new()
         {
             Amount = transactionDto.Amount,
@@ -101,15 +99,15 @@ public class TransactionService : ITransactionService
             TransactionType = transactionDto.TransactionType,
             BudgetCategory = budgetCategory
         };
-        
+
         return transaction;
     }
 
     private async Task<Transaction> CreateRepeatingTransaction(TransactionDto transactionDto, DateTime date)
     {
-        BudgetCategory? budgetCategory = await _budgetCategoryRepository
+        var budgetCategory = await _budgetCategoryRepository
             .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
-            
+
         Transaction transaction = new()
         {
             Amount = transactionDto.Amount,
@@ -117,9 +115,9 @@ public class TransactionService : ITransactionService
             EndDate = transactionDto.EndDate,
             Description = transactionDto.Description,
             TransactionType = transactionDto.TransactionType,
-            BudgetCategory = budgetCategory 
+            BudgetCategory = budgetCategory
         };
-        
+
         return transaction;
     }
 }

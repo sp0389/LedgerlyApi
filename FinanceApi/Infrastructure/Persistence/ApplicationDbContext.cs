@@ -7,11 +7,11 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<BudgetCategory> BudgetCategories { get; set; }
-    
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
-        {
-        }
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

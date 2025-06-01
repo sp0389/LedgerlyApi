@@ -41,16 +41,17 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<bool> RemoveTransactionByIdAsync(int transactionId)
     {
-        Transaction transaction = await _context.Transactions.FindAsync(transactionId)
-            ?? throw new ApplicationException("Could not find transaction with provided transaction ID");
+        var transaction = await _context.Transactions.FindAsync(transactionId)
+                          ?? throw new ApplicationException("Could not find transaction with provided transaction ID");
         _context.Transactions.Remove(transaction);
         return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
     {
-        Transaction existingTransaction = await _context.Transactions.FindAsync(transaction.Id)
-            ?? throw new ApplicationException("Could not find transaction with provided transaction ID.");
+        var existingTransaction = await _context.Transactions.FindAsync(transaction.Id)
+                                  ?? throw new ApplicationException(
+                                      "Could not find transaction with provided transaction ID.");
 
         _context.Entry(existingTransaction).CurrentValues.SetValues(transaction);
         await _context.SaveChangesAsync();
