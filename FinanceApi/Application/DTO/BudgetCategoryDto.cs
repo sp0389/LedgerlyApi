@@ -1,5 +1,4 @@
 ﻿using FinanceApi.Domain.Enums;
-using FinanceApi.Domain.Entities;
 
 namespace FinanceApi.Application.DTO;
 

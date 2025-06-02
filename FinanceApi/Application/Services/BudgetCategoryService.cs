@@ -46,6 +46,9 @@ public class BudgetCategoryService : IBudgetCategoryService
             Description = budgetCategoryDto.Description,
             CategoryType = budgetCategoryDto.CategoryType
         };
+        
+        budgetCategory.ValidateAmount();
+        budgetCategory.ValidateDate();
 
         return budgetCategory;
     }

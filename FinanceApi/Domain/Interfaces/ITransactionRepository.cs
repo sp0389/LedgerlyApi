@@ -1,4 +1,3 @@
-using System;
 using FinanceApi.Domain.Entities;
 
 namespace FinanceApi.Domain.Interfaces;

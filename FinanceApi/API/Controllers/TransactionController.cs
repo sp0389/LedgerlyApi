@@ -1,7 +1,6 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
-using FinanceApi.Domain.Entities;
-using FinanceApi.Domain.Interfaces;
+using FinanceApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;
@@ -52,8 +51,8 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-
-            catch (ApplicationException ex)
+        
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the transaction.");
                 ModelState.AddModelError("", ex.Message);
@@ -77,8 +76,8 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-
-            catch (ApplicationException ex)
+            
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the monthly transactions.");
                 ModelState.AddModelError("", ex.Message);
@@ -102,7 +101,8 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-            catch (ApplicationException ex)
+            
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the bi-weekly transactions.");
                 ModelState.AddModelError("", ex.Message);
@@ -123,8 +123,8 @@ public class TransactionController : ControllerBase
                 _logger.LogInformation("Transaction was updated successfully.");
                 return Ok(updatedTransaction);
             }
-
-            catch (ApplicationException ex)
+            
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error updating the transaction.");
                 ModelState.AddModelError("", ex.Message);
@@ -147,8 +147,8 @@ public class TransactionController : ControllerBase
                 return Ok();
             }
         }
-
-        catch (ApplicationException ex)
+        
+        catch (Exception ex)
         {
             _logger.LogError(ex, "There was an error deleting the transaction.");
             ModelState.AddModelError("", ex.Message);

@@ -1,5 +1,5 @@
-using System;
 using FinanceApi.Domain.Enums;
+using FinanceApi.Domain.Exceptions;
 
 namespace FinanceApi.Domain.Entities;
 
@@ -12,4 +12,14 @@ public class BudgetCategory
     public string Description { get; set; } = default!;
     public CategoryType CategoryType { get; set; }
     public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    public void ValidateDate()
+    {
+        if (StartDate > EndDate) throw new DomainRuleException("Start date cannot be after the end date.");
+    }
+
+    public void ValidateAmount()
+    {
+        if (Amount <= 0) throw new DomainRuleException("The amount must be not be less than or equal to zero.");
+    }
 }

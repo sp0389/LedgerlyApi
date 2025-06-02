@@ -99,6 +99,10 @@ public class TransactionService : ITransactionService
             TransactionType = transactionDto.TransactionType,
             BudgetCategory = budgetCategory
         };
+        
+        transaction.ValidateAmount();
+        transaction.ValidateDate();
+        transaction.ValidateBudgetAmount(budgetCategory.Amount);
 
         return transaction;
     }
@@ -107,7 +111,7 @@ public class TransactionService : ITransactionService
     {
         var budgetCategory = await _budgetCategoryRepository
             .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
-
+        
         Transaction transaction = new()
         {
             Amount = transactionDto.Amount,
@@ -117,7 +121,11 @@ public class TransactionService : ITransactionService
             TransactionType = transactionDto.TransactionType,
             BudgetCategory = budgetCategory
         };
-
+        
+        transaction.ValidateBudgetAmount(budgetCategory.Amount);
+        transaction.ValidateAmount();
+        transaction.ValidateDate();
+        
         return transaction;
     }
 }

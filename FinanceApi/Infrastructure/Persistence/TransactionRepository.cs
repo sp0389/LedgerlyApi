@@ -1,4 +1,3 @@
-using System;
 using FinanceApi.Domain.Entities;
 using FinanceApi.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;

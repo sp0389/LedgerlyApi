@@ -1,7 +1,6 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
-using FinanceApi.Domain.Entities;
-using FinanceApi.Domain.Interfaces;
+using FinanceApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;
@@ -44,8 +43,8 @@ public class BudgetCategoryController : ControllerBase
                     return Ok();
                 }
             }
-
-            catch (ApplicationException ex)
+            
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 _logger.LogError(ex, "There was an error creating the budget category.");
@@ -66,8 +65,8 @@ public class BudgetCategoryController : ControllerBase
                 _logger.LogInformation("Budget category was updated successfully.");
                 return Ok(updatedBudgetCategory);
             }
-
-            catch (ApplicationException ex)
+            
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 _logger.LogError(ex, "There was an error updating the budget category.");
@@ -90,13 +89,13 @@ public class BudgetCategoryController : ControllerBase
                 return Ok();
             }
         }
-
-        catch (ApplicationException ex)
+        
+        catch (Exception ex)
         {
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error removing the budget category.");
         }
-
+        
         return BadRequest();
     }
 }
