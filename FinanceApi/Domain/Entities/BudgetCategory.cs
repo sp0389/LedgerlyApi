@@ -10,16 +10,28 @@ public class BudgetCategory
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string Description { get; set; } = default!;
-    public CategoryType CategoryType { get; set; }
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public CategoryType? CategoryType { get; set; }
+    public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
 
-    public void ValidateDate()
+    public BudgetCategory()
+    {
+        ValidateDate();
+        ValidateAmount();
+        ValidateCategoryType();
+    }
+
+    private void ValidateDate()
     {
         if (StartDate > EndDate) throw new DomainRuleException("Start date cannot be after the end date.");
     }
 
-    public void ValidateAmount()
+    private void ValidateAmount()
     {
         if (Amount <= 0) throw new DomainRuleException("The amount must be not be less than or equal to zero.");
+    }
+
+    private void ValidateCategoryType()
+    {
+        if (CategoryType == null) throw new DomainRuleException("You must select a category type.");
     }
 }

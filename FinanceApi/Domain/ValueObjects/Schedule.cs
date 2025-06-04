@@ -2,9 +2,9 @@ namespace FinanceApi.Domain.ValueObjects;
 
 public abstract class Schedule
 {
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public int Occurrences { get; set; }
+    protected DateTime StartDate { get; set; }
+    protected DateTime EndDate { get; set; }
+    protected int Occurrences { get; set; }
 }
 
 public abstract class RepeatingSchedule : Schedule
@@ -42,7 +42,7 @@ public class BiWeeklySchedule : RepeatingSchedule
             return new RecurringSchedule(scheduledDates);
         }
 
-        else if (currentDate <= EndDate)
+        if (currentDate <= EndDate)
         {
             while (currentDate <= EndDate)
             {
@@ -75,8 +75,6 @@ public class MonthlySchedule : RepeatingSchedule
 
                 currentDate = currentDate.AddMonths(1);
             }
-
-            return new RecurringSchedule(scheduledDates);
         }
 
         else if (StartDate <= EndDate)

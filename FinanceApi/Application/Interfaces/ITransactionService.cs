@@ -7,7 +7,7 @@ public interface ITransactionService
 {
     Task<IEnumerable<Transaction>> GetAllTransactions();
     Task<Transaction> GetTransactionsById(int transactionId);
-    Task<IEnumerable<Transaction>> GetTransactionsByCategoryId(int categoryId);
+    Task<IEnumerable<Transaction>> GetTransactionsByBudgetCategory(BudgetCategory budgetCategory);
     Task<bool> AddTransaction(TransactionDto transaction);
     Task<bool> RemoveTransactionById(int transactionId);
     Task<Transaction> UpdateTransaction(TransactionDto transaction);

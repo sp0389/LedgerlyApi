@@ -25,10 +25,10 @@ public class TransactionRepository : ITransactionRepository
             .FirstOrDefaultAsync() ?? throw new ApplicationException("Transaction with that ID was not found");
     }
 
-    public async Task<IEnumerable<Transaction>> GetTransactionsByCategoryIdAsync(int categoryId)
+    public async Task<IEnumerable<Transaction>> GetTransactionsByBudgetCategoryAsync(BudgetCategory budgetCategory)
     {
         return await _context.Transactions
-            .Where(t => t.BudgetCategoryId == categoryId)
+            .Where(t => t.BudgetCategory == budgetCategory)
             .ToListAsync();
     }
 

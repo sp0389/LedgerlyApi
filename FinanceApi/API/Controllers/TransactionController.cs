@@ -25,17 +25,7 @@ public class TransactionController : ControllerBase
 
         return Ok(transactions);
     }
-
-    [HttpGet]
-    [Route("{categoryId}")]
-    public async Task<IActionResult> GetTransactionsByCategory(int categoryId)
-    {
-        var categoryTransactions = await _transactionService
-            .GetTransactionsByCategoryId(categoryId);
-
-        return Ok(categoryTransactions);
-    }
-
+    
     [HttpPost]
     [Route("/CreateTransaction")]
     public async Task<IActionResult> CreateTransaction(TransactionDto transaction)

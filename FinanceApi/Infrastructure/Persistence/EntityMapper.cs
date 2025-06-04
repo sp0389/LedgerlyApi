@@ -7,17 +7,18 @@ public class EntityMapper
 {
     public EntityMapper(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<BudgetCategory>(bc =>
+        modelBuilder.Entity<BudgetCategory>(budgetCategory =>
         {
-            bc.HasMany(bc => bc.Transactions)
+            budgetCategory.HasMany(bc => bc.Transactions)
                 .WithOne(t => t.BudgetCategory)
                 .HasForeignKey(t => t.BudgetCategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<Transaction>(t =>
+        modelBuilder.Entity<Transaction>(transaction =>
         {
-            t.HasOne(t => t.BudgetCategory)
+            transaction.Property(t => t.Description).HasMaxLength(500);
+            transaction.HasOne(t => t.BudgetCategory)
                 .WithMany(bc => bc.Transactions)
                 .HasForeignKey(t => t.BudgetCategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
