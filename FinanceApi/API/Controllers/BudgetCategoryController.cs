@@ -1,6 +1,5 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
-using FinanceApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;

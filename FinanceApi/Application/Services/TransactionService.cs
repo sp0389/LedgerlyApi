@@ -28,9 +28,12 @@ public class TransactionService : ITransactionService
         return await _transactionRepository.GetTransactionByIdAsync(transactionId);
     }
 
-    public async Task<IEnumerable<Transaction>> GetTransactionsByBudgetCategory(BudgetCategory budgetCategory)
+    public async Task<IEnumerable<Transaction>> GetTransactionsByBudgetCategory(Transaction transaction)
     {
-        return await _transactionRepository.GetTransactionsByBudgetCategoryAsync(budgetCategory);
+        if (transaction.BudgetCategory == null) 
+            throw new ApplicationException("This transaction is not linked to a budget category.");
+
+        return await _transactionRepository.GetTransactionsByBudgetCategoryAsync(transaction.BudgetCategory);
     }
 
     public async Task<bool> AddTransaction(TransactionDto transactionDto)
