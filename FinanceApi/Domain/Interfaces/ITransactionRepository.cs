@@ -1,4 +1,5 @@
 using FinanceApi.Domain.Entities;
+using FinanceApi.Domain.Enums;
 
 namespace FinanceApi.Domain.Interfaces;
 
@@ -10,4 +11,5 @@ public interface ITransactionRepository
     Task<bool> AddTransactionAsync(Transaction transaction);
     Task<bool> RemoveTransactionByIdAsync(int transactionId);
     Task<Transaction> UpdateTransactionAsync(Transaction transaction);
+    Task<IEnumerable<Transaction>> GetTransactionsByCategoryAsync(CategoryType categoryType);
 }

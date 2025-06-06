@@ -4,7 +4,7 @@ namespace FinanceApi.Domain.ValueObjects;
 
 public sealed class RecurringSchedule : IEnumerable<DateTime>
 {
-    private readonly IEnumerable<DateTime> _dates = new List<DateTime>();
+    private readonly IEnumerable<DateTime> _dates;
 
     public RecurringSchedule(List<DateTime> dates)
     {

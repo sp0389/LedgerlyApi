@@ -42,7 +42,7 @@ public class BudgetCategoryController : ControllerBase
                     return Ok();
                 }
             }
-            
+
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
@@ -64,7 +64,7 @@ public class BudgetCategoryController : ControllerBase
                 _logger.LogInformation("Budget category was updated successfully.");
                 return Ok(updatedBudgetCategory);
             }
-            
+
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
@@ -88,13 +88,13 @@ public class BudgetCategoryController : ControllerBase
                 return Ok();
             }
         }
-        
+
         catch (Exception ex)
         {
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error removing the budget category.");
         }
-        
+
         return BadRequest();
     }
 }

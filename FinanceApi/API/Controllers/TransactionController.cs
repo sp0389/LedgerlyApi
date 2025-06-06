@@ -1,6 +1,6 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
-using FinanceApi.Domain.Entities;
+using FinanceApi.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;
@@ -27,29 +27,21 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet]
+    [Route("{transactionId:int}")]
     public async Task<IActionResult> GetTransactionById(int transactionId)
     {
         var transaction = await _transactionService.GetTransactionsById(transactionId);
-
+    
         return Ok(transaction);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTransactionsByBudgetCategory(Transaction transaction)
+    [Route("Category")]
+    public async Task<IActionResult> GetTransactionsByCategory(CategoryType categoryType)
     {
-        try
-        {
-            var transactions = await _transactionService.GetTransactionsByBudgetCategory(transaction);
-            return Ok(transactions);
-        }
-
-        catch (Exception ex)
-        {
-            ModelState.AddModelError("", ex.Message);
-            _logger.LogError(ex, "Could not find a budget category attached to this transaction.");
-        }
-
-        return BadRequest();
+        var transactions = await _transactionService
+            .GetTransactionsByCategory(categoryType);
+        return Ok(transactions);
     }
 
     [HttpPost]
@@ -67,7 +59,7 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-        
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the transaction.");
@@ -92,7 +84,7 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-            
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the monthly transactions.");
@@ -117,7 +109,7 @@ public class TransactionController : ControllerBase
                     return Ok();
                 }
             }
-            
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the bi-weekly transactions.");
@@ -139,7 +131,7 @@ public class TransactionController : ControllerBase
                 _logger.LogInformation("Transaction was updated successfully.");
                 return Ok(updatedTransaction);
             }
-            
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error updating the transaction.");
@@ -163,7 +155,7 @@ public class TransactionController : ControllerBase
                 return Ok();
             }
         }
-        
+
         catch (Exception ex)
         {
             _logger.LogError(ex, "There was an error deleting the transaction.");

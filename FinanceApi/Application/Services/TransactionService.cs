@@ -1,6 +1,7 @@
 using FinanceApi.Application.Interfaces;
 using FinanceApi.Domain.Entities;
 using FinanceApi.Application.DTO;
+using FinanceApi.Domain.Enums;
 using FinanceApi.Domain.Interfaces;
 using FinanceApi.Domain.ValueObjects;
 
@@ -28,12 +29,9 @@ public class TransactionService : ITransactionService
         return await _transactionRepository.GetTransactionByIdAsync(transactionId);
     }
 
-    public async Task<IEnumerable<Transaction>> GetTransactionsByBudgetCategory(Transaction transaction)
+    public async Task<IEnumerable<Transaction>> GetTransactionsByCategory(CategoryType categoryType)
     {
-        if (transaction.BudgetCategory == null) 
-            throw new ApplicationException("This transaction is not linked to a budget category.");
-
-        return await _transactionRepository.GetTransactionsByBudgetCategoryAsync(transaction.BudgetCategory);
+        return await _transactionRepository.GetTransactionsByCategoryAsync(categoryType);
     }
 
     public async Task<bool> AddTransaction(TransactionDto transactionDto)
@@ -101,12 +99,12 @@ public class TransactionService : ITransactionService
             IsRecurring = false,
             Description = transactionDto.Description,
             TransactionType = transactionDto.TransactionType,
-            BudgetCategory = budgetCategory,
+            BudgetCategory = budgetCategory
         };
-        
+
         var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory);
         transaction.ValidateTransactionBudget(totalBudgetCategoryTransactionAmount);
-        
+
         return transaction;
     }
 
@@ -114,15 +112,14 @@ public class TransactionService : ITransactionService
     {
         Transaction transaction = new()
         {
-            
             Amount = transactionDto.Amount,
             Date = date,
             EndDate = transactionDto.EndDate,
             IsRecurring = true,
             Description = transactionDto.Description,
-            TransactionType = transactionDto.TransactionType,
+            TransactionType = transactionDto.TransactionType
         };
-        
+
         return transaction;
     }
 

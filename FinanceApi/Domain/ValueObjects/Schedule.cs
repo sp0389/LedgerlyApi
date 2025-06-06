@@ -43,13 +43,11 @@ public class BiWeeklySchedule : RepeatingSchedule
         }
 
         if (currentDate <= EndDate)
-        {
             while (currentDate <= EndDate)
             {
                 if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
                 currentDate = currentDate.AddDays(14);
             }
-        }
 
         return new RecurringSchedule(scheduledDates);
     }

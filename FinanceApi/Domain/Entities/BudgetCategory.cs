@@ -10,14 +10,13 @@ public class BudgetCategory
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string Description { get; set; } = default!;
-    public CategoryType? CategoryType { get; set; }
+    public CategoryType CategoryType { get; set; }
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public BudgetCategory()
     {
         ValidateDate();
         ValidateAmount();
-        ValidateCategoryType();
     }
 
     private void ValidateDate()
@@ -28,10 +27,5 @@ public class BudgetCategory
     private void ValidateAmount()
     {
         if (Amount <= 0) throw new DomainRuleException("The amount must be not be less than or equal to zero.");
-    }
-
-    private void ValidateCategoryType()
-    {
-        if (CategoryType == null) throw new DomainRuleException("You must select a category type.");
     }
 }

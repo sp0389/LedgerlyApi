@@ -34,7 +34,7 @@ public class Transaction
     {
         if (Amount <= 0) throw new DomainRuleException("The amount must not be less than or equal to zero.");
     }
-    
+
     public void ValidateTransactionBudget(decimal totalTransactionBudgetAmount)
     {
         if (BudgetCategory != null && Amount + totalTransactionBudgetAmount > BudgetCategory.Amount)
@@ -43,7 +43,8 @@ public class Transaction
 
     private void ValidateRepeatingTransaction()
     {
-        if(Occurrences <= 0 && EndDate == null)
-            throw new DomainRuleException("You must specify either occurrences or an end date for a repeating transaction.");
+        if (Occurrences <= 0 && EndDate == null)
+            throw new DomainRuleException(
+                "You must specify either occurrences or an end date for a repeating transaction.");
     }
 }

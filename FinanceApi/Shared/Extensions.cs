@@ -1,4 +1,3 @@
-using System;
 using FinanceApi.Domain.Interfaces;
 using FinanceApi.Infrastructure.Persistence;
 using FinanceApi.Application.Interfaces;

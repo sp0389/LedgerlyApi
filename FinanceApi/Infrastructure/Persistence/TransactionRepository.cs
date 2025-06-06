@@ -1,4 +1,5 @@
 using FinanceApi.Domain.Entities;
+using FinanceApi.Domain.Enums;
 using FinanceApi.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,5 +57,13 @@ public class TransactionRepository : ITransactionRepository
         await _context.SaveChangesAsync();
 
         return existingTransaction;
+    }
+
+    public async Task<IEnumerable<Transaction>> GetTransactionsByCategoryAsync(CategoryType categoryType)
+    {
+        var transactions = await _context.Transactions
+            .Where(t => t.BudgetCategory != null && t.BudgetCategory.CategoryType == categoryType)
+            .ToListAsync();
+        return transactions;
     }
 }
