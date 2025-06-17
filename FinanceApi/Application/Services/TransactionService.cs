@@ -118,10 +118,13 @@ public class TransactionService : ITransactionService
             TransactionType = transactionDto.TransactionType,
             BudgetCategory = budgetCategory
         };
-
+        
+        if (budgetCategory == null) 
+            return transaction;
+        
         var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory);
         transaction.ValidateTransactionBudget(totalBudgetCategoryTransactionAmount);
-
+        
         return transaction;
     }
 
