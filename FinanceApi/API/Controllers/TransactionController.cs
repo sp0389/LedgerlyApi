@@ -31,7 +31,7 @@ public class TransactionController : ControllerBase
     public async Task<IActionResult> GetTransactionById(int transactionId)
     {
         var transaction = await _transactionService.GetTransactionsById(transactionId);
-    
+
         return Ok(transaction);
     }
 

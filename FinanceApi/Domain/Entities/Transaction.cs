@@ -13,14 +13,14 @@ public class Transaction
     public int Occurrences { get; set; }
     public string Description { get; set; } = default!;
     public TransactionType TransactionType { get; set; }
-    public int BudgetCategoryId { get; set; }
+    public int? BudgetCategoryId { get; set; }
     public BudgetCategory? BudgetCategory { get; set; }
 
     public Transaction()
     {
         ValidateTransactionDate();
         ValidateTransactionAmount();
-        if (IsRecurring) ValidateRepeatingTransaction();
+        if (IsRecurring) ValidateRepeatingTransactionDate();
     }
 
     private void ValidateTransactionDate()
@@ -41,7 +41,13 @@ public class Transaction
             throw new DomainRuleException("The transaction exceeds the total budget amount for the budget category.");
     }
 
-    private void ValidateRepeatingTransaction()
+    public void ValidateRepeatingTransactionBudget(decimal totalTransactionAmount)
+    {
+        if (BudgetCategory != null && totalTransactionAmount > BudgetCategory.Amount)
+            throw new DomainRuleException("The transactions exceed the total budget amount for the budget category.");
+    }
+
+    private void ValidateRepeatingTransactionDate()
     {
         if (Occurrences <= 0 && EndDate == null)
             throw new DomainRuleException(

@@ -78,14 +78,17 @@ public class TransactionService : ITransactionService
             var transaction = await CreateRepeatingTransaction(transactionDto, date);
             transactions.Add(transaction);
         }
-        
-        var budgetCategory = transactions.First().BudgetCategory!; // TODO: null check
-        var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory);
-        
-        var totalTransactionAmount = GetTotalTransactionAmount(transactions);
-        totalTransactionAmount += totalBudgetCategoryTransactionAmount;
-        
-        transactions.First().ValidateTransactionBudget(totalTransactionAmount);
+
+        var budgetCategory = transactions.First().BudgetCategory;
+
+        if (budgetCategory != null)
+        {
+            var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory);
+            var totalTransactionAmount = GetTotalTransactionAmount(transactions);
+
+            totalTransactionAmount += totalBudgetCategoryTransactionAmount;
+            transactions.First().ValidateRepeatingTransactionBudget(totalTransactionAmount);
+        }
 
         foreach (var transaction in transactions)
         {
@@ -99,8 +102,11 @@ public class TransactionService : ITransactionService
 
     private async Task<Transaction> CreateSingleTransaction(TransactionDto transactionDto)
     {
-        var budgetCategory = await _budgetCategoryRepository
-            .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
+        BudgetCategory? budgetCategory = null;
+
+        if (transactionDto.BudgetCategoryId != null)
+            budgetCategory = await _budgetCategoryRepository
+                .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId.Value);
 
         Transaction transaction = new()
         {
@@ -121,8 +127,12 @@ public class TransactionService : ITransactionService
 
     private async Task<Transaction> CreateRepeatingTransaction(TransactionDto transactionDto, DateTime date)
     {
-        var budgetCategory = await _budgetCategoryRepository
-            .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId);
+        BudgetCategory? budgetCategory = null;
+
+        if (transactionDto.BudgetCategoryId != null)
+            budgetCategory = await _budgetCategoryRepository
+                .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId.Value);
+
         Transaction transaction = new()
         {
             Amount = transactionDto.Amount,
