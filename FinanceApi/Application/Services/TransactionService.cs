@@ -104,9 +104,9 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.BudgetCategoryId != null)
+        if (transactionDto.CategoryType != null)
             budgetCategory = await _budgetCategoryRepository
-                .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId.Value);
+                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType.Value);
 
         Transaction transaction = new()
         {
@@ -132,9 +132,9 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.BudgetCategoryId != null)
+        if (transactionDto.CategoryType != null)
             budgetCategory = await _budgetCategoryRepository
-                .GetBudgetCategoryByIdAsync(transactionDto.BudgetCategoryId.Value);
+                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType.Value);
 
         Transaction transaction = new()
         {
