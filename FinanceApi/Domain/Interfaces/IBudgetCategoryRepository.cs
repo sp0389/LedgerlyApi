@@ -11,4 +11,5 @@ public interface IBudgetCategoryRepository
     Task<IEnumerable<BudgetCategory>> GetAllBudgetCategoriesAsync();
     Task<BudgetCategory> GetBudgetCategoryByIdAsync(int budgetCategoryId);
     Task<BudgetCategory> GetBudgetCategoryByCategoryTypeAsync(CategoryType categoryType);
+    Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory);
 }

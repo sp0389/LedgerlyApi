@@ -97,4 +97,25 @@ public class BudgetCategoryController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpGet]
+    [Route("api/[controller]/BudgetCategoryBalance")]
+    public async Task<IActionResult> GetBudgetCategoryBalance(int budgetCategoryId)
+    {
+        try
+        {
+            var budgetCategory = await _budgetCategoryService.GetBudgetCategoryById(budgetCategoryId);
+            var balance = await _budgetCategoryService.GetAvailableBudgetCategoryBalance(budgetCategory);
+            
+            return Ok(balance);
+        }
+        
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the budget category balance.");
+        }
+
+        return BadRequest();
+    }
 }

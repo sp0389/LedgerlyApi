@@ -19,6 +19,10 @@ public class BudgetCategoryService : IBudgetCategoryService
         return await _budgetCategoryRepository.GetAllBudgetCategoriesAsync();
     }
 
+    public async Task<BudgetCategory> GetBudgetCategoryById(int budgetCategoryId)
+    {
+        return await _budgetCategoryRepository.GetBudgetCategoryByIdAsync(budgetCategoryId);
+    }
     public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
         var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
@@ -48,5 +52,10 @@ public class BudgetCategoryService : IBudgetCategoryService
         };
 
         return budgetCategory;
+    }
+
+    public async Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory)
+    {
+        return await _budgetCategoryRepository.GetAvailableBudgetCategoryBalance(budgetCategory);
     }
 }
