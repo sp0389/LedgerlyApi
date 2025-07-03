@@ -110,6 +110,7 @@ public class TransactionService : ITransactionService
 
         Transaction transaction = new()
         {
+            Title = transactionDto.Title,
             Amount = transactionDto.Amount,
             Date = transactionDto.Date,
             EndDate = transactionDto.EndDate,
@@ -138,6 +139,7 @@ public class TransactionService : ITransactionService
 
         Transaction transaction = new()
         {
+            Title = transactionDto.Title,
             Amount = transactionDto.Amount,
             Date = date,
             EndDate = transactionDto.EndDate,

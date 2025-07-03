@@ -6,6 +6,7 @@ namespace FinanceApi.Domain.Entities;
 public class Transaction
 {
     public int Id { get; set; }
+    public string Title { get; set; } = default!;
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
     public bool IsRecurring { get; set; }

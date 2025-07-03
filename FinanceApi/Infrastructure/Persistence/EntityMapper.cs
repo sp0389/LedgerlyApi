@@ -17,6 +17,7 @@ public class EntityMapper
 
         modelBuilder.Entity<Transaction>(transaction =>
         {
+            transaction.Property(t => t.Title).HasMaxLength(25);
             transaction.Property(t => t.Description).HasMaxLength(500);
             transaction.HasOne(t => t.BudgetCategory)
                 .WithMany(bc => bc.Transactions)

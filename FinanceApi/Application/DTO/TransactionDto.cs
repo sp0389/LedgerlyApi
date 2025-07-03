@@ -5,6 +5,7 @@ namespace FinanceApi.Application.DTO;
 public class TransactionDto
 {
     public int Id { get; set; }
+    public string Title { get; set; } = default!;
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
     public bool IsRecurring { get; set; }
