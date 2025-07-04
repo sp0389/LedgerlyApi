@@ -12,4 +12,7 @@ public interface ITransactionRepository
     Task<bool> RemoveTransactionByIdAsync(int transactionId);
     Task<Transaction> UpdateTransactionAsync(Transaction transaction);
     Task<IEnumerable<Transaction>> GetTransactionsByCategoryAsync(CategoryType categoryType);
+    Task<decimal> GetIncomeTransactionBalanceAsync();
+    Task<decimal> GetExpenseTransactionBalanceAsync();
+    Task<IEnumerable<Transaction>> GetLastFiveTransactionsAsync();
 }

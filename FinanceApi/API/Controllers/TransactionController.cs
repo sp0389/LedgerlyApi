@@ -164,4 +164,59 @@ public class TransactionController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpGet]
+    [Route("IncomeBalance")]
+    public async Task<IActionResult> GetIncomeTransactionBalance()
+    {
+        try
+        {
+            var balance = await _transactionService.GetIncomeTransactionBalance();
+            return Ok(balance);
+        }
+        
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the income transaction balance.");
+        }
+        
+        return BadRequest();
+    }
+    
+    [HttpGet]
+    [Route("ExpenseBalance")]
+    public async Task<IActionResult> GetExpenseTransactionBalance()
+    {
+        try
+        {
+            var balance = await _transactionService.GetExpenseTransactionBalance();
+            return Ok(balance);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the expense transaction balance.");
+        }
+        
+        return  BadRequest();
+    }
+
+    [HttpGet]
+    [Route("LastFive")]
+    public async Task<IActionResult> GetLastFiveTransactions()
+    {
+        try
+        {
+            var transactions = await _transactionService.GetLastFiveTransactions();
+            return Ok(transactions);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the last five transactions.");
+        }
+        
+        return BadRequest();
+    }
 }

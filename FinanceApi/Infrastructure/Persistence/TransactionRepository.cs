@@ -66,4 +66,29 @@ public class TransactionRepository : ITransactionRepository
             .ToListAsync();
         return transactions;
     }
+
+    public async Task<decimal> GetIncomeTransactionBalanceAsync()
+    {
+        var incomeTransactions = await _context.Transactions
+            .Where(t => t.TransactionType == TransactionType.Income)
+            .ToListAsync();
+        var balance = incomeTransactions.Sum(t => t.Amount);
+        return balance;
+    }
+
+    public async Task<decimal> GetExpenseTransactionBalanceAsync()
+    {
+        var expenseTransactions = await _context.Transactions
+            .Where(t => t.TransactionType == TransactionType.Expense)
+            .ToListAsync();
+        var balance = expenseTransactions.Sum(t => t.Amount);
+        return balance;
+    }
+
+    public async Task<IEnumerable<Transaction>> GetLastFiveTransactionsAsync()
+    {
+        return await _context.Transactions.OrderByDescending(t => t.Date)
+            .Take(5)
+            .ToListAsync();
+    }
 }

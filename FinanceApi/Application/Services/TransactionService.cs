@@ -23,12 +23,17 @@ public class TransactionService : ITransactionService
     {
         return await _transactionRepository.GetAllTransactionsAsync();
     }
-
+    
+    public async Task<IEnumerable<Transaction>> GetLastFiveTransactions()
+    {
+        return await _transactionRepository.GetLastFiveTransactionsAsync();
+    }
+    
     public async Task<Transaction> GetTransactionsById(int transactionId)
     {
         return await _transactionRepository.GetTransactionByIdAsync(transactionId);
     }
-
+    
     public async Task<IEnumerable<Transaction>> GetTransactionsByCategory(CategoryType categoryType)
     {
         return await _transactionRepository.GetTransactionsByCategoryAsync(categoryType);
@@ -162,5 +167,15 @@ public class TransactionService : ITransactionService
     private static decimal GetTotalTransactionAmount(IEnumerable<Transaction> transactions)
     {
         return transactions.Sum(t => t.Amount);
+    }
+
+    public async Task<decimal> GetIncomeTransactionBalance()
+    {
+        return await _transactionRepository.GetIncomeTransactionBalanceAsync();
+    }
+
+    public async Task<decimal> GetExpenseTransactionBalance()
+    {
+        return await _transactionRepository.GetExpenseTransactionBalanceAsync();
     }
 }
