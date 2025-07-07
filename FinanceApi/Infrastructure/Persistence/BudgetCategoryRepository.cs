@@ -48,15 +48,15 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
     public async Task<BudgetCategory> GetBudgetCategoryByIdAsync(int budgetCategoryId)
     {
         var budgetCategory = await _context.BudgetCategories.FindAsync(budgetCategoryId)
-            ?? throw new ApplicationException("No budget category was found with the specified ID.");
+                             ?? throw new ApplicationException("No budget category was found with the specified ID.");
         return budgetCategory;
     }
 
     public async Task<BudgetCategory> GetBudgetCategoryByCategoryTypeAsync(CategoryType categoryType)
     {
         return await _context.BudgetCategories
-            .FirstOrDefaultAsync(bc => bc.CategoryType == categoryType) ??
-            throw new ApplicationException("No budget category was found with the specified category type.");
+                   .FirstOrDefaultAsync(bc => bc.CategoryType == categoryType) ??
+               throw new ApplicationException("No budget category was found with the specified category type.");
     }
 
     public async Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory)
@@ -64,7 +64,7 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         var budgetCategoryTransactions = await _context.BudgetCategories
             .Include(bc => bc.Transactions)
             .ToListAsync();
-        
+
         var transactionTotal = budgetCategoryTransactions.Sum(t => t.Amount);
         return budgetCategory.Amount - transactionTotal;
     }

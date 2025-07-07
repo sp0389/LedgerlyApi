@@ -9,5 +9,6 @@ public enum CategoryType
     Transportation,
     Housing,
     Health,
-    Savings
+    Savings,
+    Undefined
 }

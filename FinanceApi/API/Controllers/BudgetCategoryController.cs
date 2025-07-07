@@ -106,10 +106,10 @@ public class BudgetCategoryController : ControllerBase
         {
             var budgetCategory = await _budgetCategoryService.GetBudgetCategoryById(budgetCategoryId);
             var balance = await _budgetCategoryService.GetAvailableBudgetCategoryBalance(budgetCategory);
-            
+
             return Ok(balance);
         }
-        
+
         catch (Exception ex)
         {
             ModelState.AddModelError("", ex.Message);

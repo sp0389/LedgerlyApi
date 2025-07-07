@@ -23,17 +23,17 @@ public class TransactionService : ITransactionService
     {
         return await _transactionRepository.GetAllTransactionsAsync();
     }
-    
+
     public async Task<IEnumerable<Transaction>> GetLastFiveTransactions()
     {
         return await _transactionRepository.GetLastFiveTransactionsAsync();
     }
-    
+
     public async Task<Transaction> GetTransactionsById(int transactionId)
     {
         return await _transactionRepository.GetTransactionByIdAsync(transactionId);
     }
-    
+
     public async Task<IEnumerable<Transaction>> GetTransactionsByCategory(CategoryType categoryType)
     {
         return await _transactionRepository.GetTransactionsByCategoryAsync(categoryType);
@@ -109,9 +109,9 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.CategoryType != null)
+        if (transactionDto.CategoryType != CategoryType.Undefined)
             budgetCategory = await _budgetCategoryRepository
-                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType.Value);
+                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType!.Value);
 
         Transaction transaction = new()
         {
@@ -124,13 +124,15 @@ public class TransactionService : ITransactionService
             TransactionType = transactionDto.TransactionType,
             BudgetCategory = budgetCategory
         };
-        
-        if (budgetCategory == null) 
+
+        transaction.Validate();
+
+        if (transaction.BudgetCategory == null)
             return transaction;
-        
-        var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory);
+
+        var totalBudgetCategoryTransactionAmount = await GetTotalBudgetTransactionAmount(budgetCategory!);
         transaction.ValidateTransactionBudget(totalBudgetCategoryTransactionAmount);
-        
+
         return transaction;
     }
 
@@ -138,9 +140,9 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.CategoryType != null)
+        if (transactionDto.CategoryType != CategoryType.Undefined)
             budgetCategory = await _budgetCategoryRepository
-                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType.Value);
+                .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType!.Value);
 
         Transaction transaction = new()
         {

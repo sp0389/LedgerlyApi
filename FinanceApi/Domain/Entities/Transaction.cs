@@ -17,16 +17,9 @@ public class Transaction
     public int? BudgetCategoryId { get; set; }
     public BudgetCategory? BudgetCategory { get; set; }
 
-    public Transaction()
-    {
-        ValidateTransactionDate();
-        ValidateTransactionAmount();
-        if (IsRecurring) ValidateRepeatingTransactionDate();
-    }
-
     private void ValidateTransactionDate()
     {
-        if (Date <= DateTime.Now)
+        if (Date <= DateTime.Today)
             throw new DomainRuleException("The transaction date must not be in the past.");
         if (Date > EndDate) throw new DomainRuleException("The transaction date cannot be after the end date.");
     }
@@ -53,5 +46,12 @@ public class Transaction
         if (Occurrences <= 0 && EndDate == null)
             throw new DomainRuleException(
                 "You must specify either occurrences or an end date for a repeating transaction.");
+    }
+
+    public void Validate()
+    {
+        ValidateTransactionDate();
+        ValidateTransactionAmount();
+        ValidateRepeatingTransactionDate();
     }
 }

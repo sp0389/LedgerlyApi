@@ -29,25 +29,44 @@ public class BiWeeklySchedule : RepeatingSchedule
     public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
         var currentDate = StartDate;
+        var count = 0;
         List<DateTime> scheduledDates = new();
 
         if (Occurrences != 0)
         {
-            for (var i = 0; i < Occurrences; i++)
+            while (count < Occurrences)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
+                for (int j = 0; j < 7; j++)
+                {
+                    var currentDateCheck = currentDate.AddDays(j);
+
+                    if (chosenDays.Contains(currentDateCheck.DayOfWeek))
+                    {
+                        scheduledDates.Add(currentDateCheck);
+                        count++;
+
+                        if (count == Occurrences)
+                            break;
+                    }
+                }
+
                 currentDate = currentDate.AddDays(14);
             }
 
             return new RecurringSchedule(scheduledDates);
         }
 
-        if (currentDate <= EndDate)
-            while (currentDate <= EndDate)
+        while (currentDate <= EndDate)
+        {
+            for (var i = 0; i < 7; i++)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
-                currentDate = currentDate.AddDays(14);
+                var currentDateCheck = currentDate.AddDays(i);
+
+                if (chosenDays.Contains(currentDateCheck.DayOfWeek)) scheduledDates.Add(currentDateCheck);
             }
+
+            currentDate = currentDate.AddDays(14);
+        }
 
         return new RecurringSchedule(scheduledDates);
     }
@@ -63,27 +82,43 @@ public class MonthlySchedule : RepeatingSchedule
     public override RecurringSchedule GenerateDates(IList<DayOfWeek> chosenDays)
     {
         var currentDate = StartDate;
+        var count = 0;
         List<DateTime> scheduledDates = new();
 
         if (Occurrences != 0)
         {
-            for (var i = 0; i < Occurrences; i++)
+            while (count < Occurrences)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
+                for (int j = 0; j < 7; j++)
+                {
+                    var currentDateCheck = currentDate.AddDays(j);
 
-                currentDate = currentDate.AddMonths(1);
+                    if (chosenDays.Contains(currentDateCheck.DayOfWeek))
+                    {
+                        scheduledDates.Add(currentDateCheck);
+                        count++;
+
+                        if (count == Occurrences)
+                            break;
+                    }
+                }
+
+                currentDate = currentDate.AddDays(14);
             }
+
+            return new RecurringSchedule(scheduledDates);
         }
 
-        else if (StartDate <= EndDate)
+        while (currentDate <= EndDate)
         {
-            currentDate = StartDate;
-
-            while (currentDate <= EndDate)
+            for (var i = 0; i < 7; i++)
             {
-                if (chosenDays.Contains(currentDate.DayOfWeek)) scheduledDates.Add(currentDate);
-                currentDate = currentDate.AddMonths(1);
+                var currentDateCheck = currentDate.AddDays(i);
+
+                if (chosenDays.Contains(currentDateCheck.DayOfWeek)) scheduledDates.Add(currentDateCheck);
             }
+
+            currentDate = currentDate.AddMonths(1);
         }
 
         return new RecurringSchedule(scheduledDates);

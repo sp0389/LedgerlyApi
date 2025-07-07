@@ -45,7 +45,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/CreateTransaction")]
+    [Route("CreateTransaction")]
     public async Task<IActionResult> CreateTransaction(TransactionDto transaction)
     {
         if (ModelState.IsValid)
@@ -174,16 +174,16 @@ public class TransactionController : ControllerBase
             var balance = await _transactionService.GetIncomeTransactionBalance();
             return Ok(balance);
         }
-        
+
         catch (Exception ex)
         {
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error getting the income transaction balance.");
         }
-        
+
         return BadRequest();
     }
-    
+
     [HttpGet]
     [Route("ExpenseBalance")]
     public async Task<IActionResult> GetExpenseTransactionBalance()
@@ -198,8 +198,8 @@ public class TransactionController : ControllerBase
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error getting the expense transaction balance.");
         }
-        
-        return  BadRequest();
+
+        return BadRequest();
     }
 
     [HttpGet]
@@ -216,7 +216,7 @@ public class TransactionController : ControllerBase
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error getting the last five transactions.");
         }
-        
+
         return BadRequest();
     }
 }

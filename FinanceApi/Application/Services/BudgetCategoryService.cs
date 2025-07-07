@@ -23,6 +23,7 @@ public class BudgetCategoryService : IBudgetCategoryService
     {
         return await _budgetCategoryRepository.GetBudgetCategoryByIdAsync(budgetCategoryId);
     }
+
     public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
         var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
