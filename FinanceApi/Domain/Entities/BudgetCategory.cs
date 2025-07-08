@@ -12,13 +12,6 @@ public class BudgetCategory
     public string Description { get; set; } = default!;
     public CategoryType CategoryType { get; set; }
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
-
-    public BudgetCategory()
-    {
-        ValidateDate();
-        ValidateAmount();
-    }
-
     private void ValidateDate()
     {
         if (StartDate > EndDate) throw new DomainRuleException("Start date cannot be after the end date.");
@@ -27,5 +20,11 @@ public class BudgetCategory
     private void ValidateAmount()
     {
         if (Amount <= 0) throw new DomainRuleException("The amount must be not be less than or equal to zero.");
+    }
+    
+    public void Validate()
+    {
+        ValidateDate();
+        ValidateAmount();
     }
 }

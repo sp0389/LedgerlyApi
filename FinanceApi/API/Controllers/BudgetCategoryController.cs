@@ -99,7 +99,7 @@ public class BudgetCategoryController : ControllerBase
     }
 
     [HttpGet]
-    [Route("api/[controller]/BudgetCategoryBalance")]
+    [Route("/BudgetCategoryBalance")]
     public async Task<IActionResult> GetBudgetCategoryBalance(int budgetCategoryId)
     {
         try

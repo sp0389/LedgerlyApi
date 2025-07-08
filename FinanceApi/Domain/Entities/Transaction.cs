@@ -43,7 +43,7 @@ public class Transaction
 
     private void ValidateRepeatingTransactionDate()
     {
-        if (Occurrences <= 0 && EndDate == null)
+        if (Occurrences <= 0 && EndDate == null && IsRecurring)
             throw new DomainRuleException(
                 "You must specify either occurrences or an end date for a repeating transaction.");
     }

@@ -36,9 +36,9 @@ public class BiWeeklySchedule : RepeatingSchedule
         {
             while (count < Occurrences)
             {
-                for (int j = 0; j < 7; j++)
+                for (var i = 0; i < 7; i++)
                 {
-                    var currentDateCheck = currentDate.AddDays(j);
+                    var currentDateCheck = currentDate.AddDays(i);
 
                     if (chosenDays.Contains(currentDateCheck.DayOfWeek))
                     {
@@ -89,9 +89,9 @@ public class MonthlySchedule : RepeatingSchedule
         {
             while (count < Occurrences)
             {
-                for (int j = 0; j < 7; j++)
+                for (var i = 0; i < 7; i++)
                 {
-                    var currentDateCheck = currentDate.AddDays(j);
+                    var currentDateCheck = currentDate.AddDays(i);
 
                     if (chosenDays.Contains(currentDateCheck.DayOfWeek))
                     {
