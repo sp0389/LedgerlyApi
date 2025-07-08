@@ -63,8 +63,9 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
     {
         var budgetCategoryTransactions = await _context.BudgetCategories
             .Include(bc => bc.Transactions)
+            .SelectMany(bc => bc.Transactions)
             .ToListAsync();
-
+        
         var transactionTotal = budgetCategoryTransactions.Sum(t => t.Amount);
         return budgetCategory.Amount - transactionTotal;
     }
