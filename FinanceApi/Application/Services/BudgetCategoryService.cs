@@ -2,6 +2,7 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Domain.Entities;
 using FinanceApi.Application.Interfaces;
+using FinanceApi.Domain.Enums;
 
 namespace FinanceApi.Application.Services;
 
@@ -59,5 +60,10 @@ public class BudgetCategoryService : IBudgetCategoryService
     public async Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory)
     {
         return await _budgetCategoryRepository.GetAvailableBudgetCategoryBalance(budgetCategory);
+    }
+
+    public IEnumerable<string> GetAvailableCategoryTypes()
+    {
+        return Enum.GetNames<CategoryType>().ToList();
     }
 }

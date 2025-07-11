@@ -60,7 +60,7 @@ public class TransactionService : ITransactionService
     {
         MonthlySchedule monthlySchedule =
             new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays);
+        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays!);
 
         return await ProcessTransactions(transactionDto, schedule);
     }
@@ -69,7 +69,7 @@ public class TransactionService : ITransactionService
     {
         BiWeeklySchedule biWeeklySchedule =
             new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        var schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays);
+        var schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays!);
 
         return await ProcessTransactions(transactionDto, schedule);
     }
@@ -109,7 +109,7 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.CategoryType != CategoryType.Undefined)
+        if (transactionDto.CategoryType != null)
             budgetCategory = await _budgetCategoryRepository
                 .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType!.Value);
 
@@ -140,7 +140,7 @@ public class TransactionService : ITransactionService
     {
         BudgetCategory? budgetCategory = null;
 
-        if (transactionDto.CategoryType != CategoryType.Undefined)
+        if (transactionDto.CategoryType != null)
             budgetCategory = await _budgetCategoryRepository
                 .GetBudgetCategoryByCategoryTypeAsync(transactionDto.CategoryType!.Value);
 

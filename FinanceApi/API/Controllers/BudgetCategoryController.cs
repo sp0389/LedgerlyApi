@@ -28,7 +28,7 @@ public class BudgetCategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBudgetCategory(BudgetCategoryDto budgetCategory)
+    public async Task<IActionResult> CreateBudgetCategory([FromBody] BudgetCategoryDto budgetCategory)
     {
         if (ModelState.IsValid)
             try
@@ -117,5 +117,13 @@ public class BudgetCategoryController : ControllerBase
         }
 
         return BadRequest();
+    }
+
+    [HttpGet]
+    [Route("BudgetCategoryTypes")]
+    public IActionResult GetAvailableCategoryTypes()
+    {
+        var budgetCategoryTypes = _budgetCategoryService.GetAvailableCategoryTypes();
+        return Ok(budgetCategoryTypes);
     }
 }

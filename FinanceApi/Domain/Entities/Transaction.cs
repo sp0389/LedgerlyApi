@@ -19,7 +19,7 @@ public class Transaction
 
     private void ValidateTransactionDate()
     {
-        if (Date <= DateTime.Today)
+        if (Date <= DateTime.UtcNow.Date)
             throw new DomainRuleException("The transaction date must not be in the past.");
         if (Date > EndDate) throw new DomainRuleException("The transaction date cannot be after the end date.");
     }

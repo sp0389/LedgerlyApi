@@ -10,5 +10,4 @@ public enum CategoryType
     Housing,
     Health,
     Savings,
-    Undefined
 }

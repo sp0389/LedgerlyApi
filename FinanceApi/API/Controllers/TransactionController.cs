@@ -46,7 +46,7 @@ public class TransactionController : ControllerBase
 
     [HttpPost]
     [Route("CreateTransaction")]
-    public async Task<IActionResult> CreateTransaction(TransactionDto transaction)
+    public async Task<IActionResult> CreateTransaction([FromBody] TransactionDto transaction)
     {
         if (ModelState.IsValid)
             try
