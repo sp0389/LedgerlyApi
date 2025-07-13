@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FinanceApi.Domain.Enums;
 using FinanceApi.Domain.Exceptions;
 
@@ -6,11 +7,13 @@ namespace FinanceApi.Domain.Entities;
 public class BudgetCategory
 {
     public int Id { get; set; }
+    public string Title { get; set; }
     public decimal Amount { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string Description { get; set; } = default!;
     public CategoryType CategoryType { get; set; }
+    [JsonIgnore]
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
     private void ValidateDate()
     {
