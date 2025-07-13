@@ -36,7 +36,7 @@ public class BudgetCategoryController : ControllerBase
                 var result = await _budgetCategoryService
                     .AddBudgetCategory(budgetCategory);
 
-                if (!result)
+                if (result)
                 {
                     _logger.LogInformation("Created budget category successfully.");
                     return Ok();
@@ -82,7 +82,7 @@ public class BudgetCategoryController : ControllerBase
             var result = await _budgetCategoryService
                 .RemoveBudgetCategory(budgetCategoryId);
 
-            if (!result)
+            if (result)
             {
                 _logger.LogInformation("Budget category was removed successfully.");
                 return Ok();
