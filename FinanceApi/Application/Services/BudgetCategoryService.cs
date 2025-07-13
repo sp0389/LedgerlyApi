@@ -46,6 +46,7 @@ public class BudgetCategoryService : IBudgetCategoryService
     {
         BudgetCategory budgetCategory = new()
         {
+            Title = budgetCategoryDto.Title,
             Amount = budgetCategoryDto.Amount,
             StartDate = budgetCategoryDto.StartDate,
             EndDate = budgetCategoryDto.EndDate,
