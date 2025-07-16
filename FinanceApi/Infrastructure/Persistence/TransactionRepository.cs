@@ -16,7 +16,10 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<IEnumerable<Transaction>> GetAllTransactionsAsync()
     {
-        return await _context.Transactions.ToListAsync();
+        var transactions = await _context.Transactions
+            .Include(t => t.BudgetCategory)
+            .ToListAsync();
+        return transactions;
     }
 
     public async Task<Transaction> GetTransactionByIdAsync(int id)
