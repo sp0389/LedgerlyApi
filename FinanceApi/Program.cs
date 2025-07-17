@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using FinanceApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using FinanceApi.Infrastructure.Persistence;
 using FinanceApi.Shared;
