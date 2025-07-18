@@ -7,7 +7,7 @@ namespace FinanceApi.Domain.Entities;
 public class BudgetCategory
 {
     public int Id { get; set; }
-    public string Title { get; set; }
+    public string Title { get; set; } = default!;
     public decimal Amount { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
@@ -16,7 +16,7 @@ public class BudgetCategory
     [JsonIgnore]
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
     public User User { get; set; } = default!;
-    public int UserId { get; set; }
+    public string UserId { get; set; } = default!;
     private void ValidateDate()
     {
         if (StartDate > EndDate) throw new DomainRuleException("Start date cannot be after the end date.");

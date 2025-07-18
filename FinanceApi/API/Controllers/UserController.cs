@@ -18,6 +18,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost]
+    [Route("Register")]
     public async Task<IActionResult> Register(UserDto userDto)
     {
         if (ModelState.IsValid)
@@ -42,9 +43,31 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
+    [Route("Login")]
     public async Task<IActionResult> Login(UserDto userDto)
     {
-        //TODO:
-        throw new NotImplementedException();
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var token = await _userService.GetJwtTokenForUser(userDto);
+
+                if (token != "Invalid Credentials!")
+                {
+                    return Ok(token);
+                }
+                else
+                {
+                    return BadRequest(token);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                _logger.LogError(ex,"There was an error attempting to get login credentials.");
+            }
+        }
+
+        return BadRequest();
     }
 }

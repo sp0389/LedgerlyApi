@@ -17,7 +17,7 @@ public class Transaction
     public int? BudgetCategoryId { get; set; }
     public BudgetCategory? BudgetCategory { get; set; }
     public User User { get; set; } = default!;
-    public int UserId { get; set; }
+    public string UserId { get; set; } = default!;
 
     private void ValidateTransactionDate()
     {
