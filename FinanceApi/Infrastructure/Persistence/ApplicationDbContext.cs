@@ -8,7 +8,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
 {
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<BudgetCategory> BudgetCategories { get; set; }
-    public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -19,5 +18,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(modelBuilder);
         _ = new EntityMapper(modelBuilder);
+        _ = new Seed(modelBuilder);
     }
 }
