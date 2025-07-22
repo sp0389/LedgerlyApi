@@ -1,9 +1,11 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;
 
+[Authorize(Policy = "RequireMemberRole")]
 [Route("api/[controller]")]
 [ApiController]
 public class BudgetCategoryController : ControllerBase

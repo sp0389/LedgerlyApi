@@ -1,9 +1,11 @@
 using FinanceApi.Application.DTO;
 using FinanceApi.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.API.Controllers;
 
+[AllowAnonymous]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
@@ -56,10 +58,8 @@ public class UserController : ControllerBase
                 {
                     return Ok(token);
                 }
-                else
-                {
-                    return BadRequest(token);
-                }
+                
+                return BadRequest(token);
             }
             catch (Exception ex)
             {

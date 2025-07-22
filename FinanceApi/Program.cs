@@ -39,6 +39,9 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequireMemberRole", policy => policy.RequireRole("Member"));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
