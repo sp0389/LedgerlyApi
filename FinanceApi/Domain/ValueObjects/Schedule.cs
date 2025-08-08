@@ -103,7 +103,7 @@ public class MonthlySchedule : RepeatingSchedule
                     }
                 }
 
-                currentDate = currentDate.AddDays(14);
+                currentDate = currentDate.AddMonths(1);
             }
 
             return new RecurringSchedule(scheduledDates);
