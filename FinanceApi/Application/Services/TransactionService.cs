@@ -60,7 +60,7 @@ public class TransactionService : ITransactionService
     {
         MonthlySchedule monthlySchedule =
             new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays!);
+        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays!, 1);
 
         return await ProcessTransactions(transactionDto, schedule);
     }
@@ -69,7 +69,7 @@ public class TransactionService : ITransactionService
     {
         BiWeeklySchedule biWeeklySchedule =
             new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        var schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays!);
+        var schedule = biWeeklySchedule.GenerateDates(transactionDto.SelectedDays!, 14);
 
         return await ProcessTransactions(transactionDto, schedule);
     }
