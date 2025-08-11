@@ -15,6 +15,6 @@ public interface ITransactionService
     Task<Transaction> UpdateTransaction(TransactionDto transaction);
     Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transaction);
     Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transaction);
-    Task<decimal> GetIncomeTransactionBalance();
-    Task<decimal> GetExpenseTransactionBalance();
+    Task<decimal> GetTransactionBalance(TransactionType transactionType);
+    Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYear(int year, TransactionType transactionType);
 }

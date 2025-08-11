@@ -173,7 +173,7 @@ public class TransactionController : ControllerBase
     {
         try
         {
-            var balance = await _transactionService.GetIncomeTransactionBalance();
+            var balance = await _transactionService.GetTransactionBalance(TransactionType.Income);
             return Ok(balance);
         }
 
@@ -192,7 +192,7 @@ public class TransactionController : ControllerBase
     {
         try
         {
-            var balance = await _transactionService.GetExpenseTransactionBalance();
+            var balance = await _transactionService.GetTransactionBalance(TransactionType.Expense);
             return Ok(balance);
         }
         catch (Exception ex)
@@ -219,6 +219,46 @@ public class TransactionController : ControllerBase
             _logger.LogError(ex, "There was an error getting the last five transactions.");
         }
 
+        return BadRequest();
+    }
+
+    [HttpGet]
+    [Route("MonthlyIncomeAmounts/{year:int}")]
+    public async Task<IActionResult> GetMonthlyIncomeTransactionAmounts(int year)
+    {
+        try
+        {
+            var transactionAmounts = await _transactionService
+                .GetMonthlyTransactionAmountsForYear(year, TransactionType.Income);
+            return Ok(transactionAmounts);
+        }
+        
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the monthly income transaction amounts.");
+        }
+        
+        return BadRequest();
+    }
+    
+    [HttpGet]
+    [Route("MonthlyExpenseAmounts/{year:int}")]
+    public async Task<IActionResult> GetMonthlyExpenseTransactionAmounts(int year)
+    {
+        try
+        {
+            var transactionAmounts = await _transactionService
+                .GetMonthlyTransactionAmountsForYear(year, TransactionType.Expense);
+            return Ok(transactionAmounts);
+        }
+        
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the monthly expense transaction amounts.");
+        }
+        
         return BadRequest();
     }
 }

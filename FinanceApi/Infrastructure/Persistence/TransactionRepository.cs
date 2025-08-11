@@ -69,20 +69,11 @@ public class TransactionRepository : ITransactionRepository
             .ToListAsync();
         return transactions;
     }
-
-    public async Task<decimal> GetIncomeTransactionBalanceAsync()
-    {
-        var incomeTransactions = await _context.Transactions
-            .Where(t => t.TransactionType == TransactionType.Income)
-            .ToListAsync();
-        var balance = incomeTransactions.Sum(t => t.Amount);
-        return balance;
-    }
-
-    public async Task<decimal> GetExpenseTransactionBalanceAsync()
+    
+    public async Task<decimal> GetTransactionBalanceAsync(TransactionType transactionType)
     {
         var expenseTransactions = await _context.Transactions
-            .Where(t => t.TransactionType == TransactionType.Expense)
+            .Where(t => t.TransactionType == transactionType)
             .ToListAsync();
         var balance = expenseTransactions.Sum(t => t.Amount);
         return balance;
@@ -93,5 +84,25 @@ public class TransactionRepository : ITransactionRepository
         return await _context.Transactions.OrderByDescending(t => t.Date)
             .Take(5)
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYearAsync(int year, 
+        TransactionType transactionType)
+    {
+        var monthlyTransactionAmounts = await _context.Transactions
+            .Where(t => t.TransactionType == transactionType && t.Date.Year == year)
+            .GroupBy(t => t.Date.Month)
+            .Select(g => new
+            {
+                Month = g.Key,
+                Amount = g.Sum(t => t.Amount)
+            }).ToListAsync();
+        
+        var monthlyTransactionAmountsDict = monthlyTransactionAmounts
+            .ToDictionary(m => m.Month, m => m.Amount);
+
+        return Enumerable.Range(1, 12)
+            .Select(m => monthlyTransactionAmountsDict.GetValueOrDefault(m, 0))
+            .ToList();
     }
 }

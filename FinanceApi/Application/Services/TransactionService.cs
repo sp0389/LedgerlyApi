@@ -171,13 +171,14 @@ public class TransactionService : ITransactionService
         return transactions.Sum(t => t.Amount);
     }
 
-    public async Task<decimal> GetIncomeTransactionBalance()
+    public async Task<decimal> GetTransactionBalance(TransactionType transactionType)
     {
-        return await _transactionRepository.GetIncomeTransactionBalanceAsync();
+        return await _transactionRepository.GetTransactionBalanceAsync(transactionType);
     }
-
-    public async Task<decimal> GetExpenseTransactionBalance()
+    
+    public async Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYear(int year,
+        TransactionType transactionType)
     {
-        return await _transactionRepository.GetExpenseTransactionBalanceAsync();
+        return await _transactionRepository.GetMonthlyTransactionAmountsForYearAsync(year, transactionType);
     }
 }

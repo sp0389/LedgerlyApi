@@ -66,11 +66,8 @@ public class UserService : IUserService
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!)
             };
-
-            foreach(var role in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+            
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
