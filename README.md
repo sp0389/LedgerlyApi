@@ -27,7 +27,7 @@ dotnet ef database update
 dotnet run or run the application from the IDE.
 ```
 ## Usage
-- Access via (Swagger):
+Access via (Swagger):
 ```
 https://localhost:7156/swagger/index.html (or configured port).
 ```
