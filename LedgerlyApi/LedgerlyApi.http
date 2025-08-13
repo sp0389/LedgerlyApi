@@ -1,0 +1,6 @@
+@LedgerlyApi_HostAddress = http://localhost:5007
+
+GET {{LedgerlyApi_HostAddress}}/transaction/
+Accept: application/json
+
+###
