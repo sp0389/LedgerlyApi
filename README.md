@@ -14,6 +14,7 @@ It has multiple API end points that persist, or grab data from an MSSQL database
 ```
 git clone https://github.com/sp0389/LedgerlyApi.git
 ```
+2. Change directory
 ```
 cd LedgerlyApi
 ```
