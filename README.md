@@ -60,3 +60,8 @@ Deploy to Azure, IIS, or containerize with Docker.
 2. Create a feature branch.
 3. Commit changes.
 4. Open a Pull Request.
+
+## Screenshots
+
+<img width="1185" height="1253" alt="image" src="https://github.com/user-attachments/assets/756c40e4-0dff-455d-95e1-199928e89f6f" />
+
