@@ -15,4 +15,6 @@ public interface ITransactionRepository
     Task<decimal> GetTransactionBalanceAsync(TransactionType transactionType);
     Task<IEnumerable<Transaction>> GetLastFiveTransactionsAsync();
     Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYearAsync(int year, TransactionType transactionType);
+    Task<IEnumerable<Transaction>> GetPagedTransactionsAsync(int page, int pageSize);
+    Task<int> GetTotalTransactionCountAsync();
 }

@@ -181,4 +181,14 @@ public class TransactionService : ITransactionService
     {
         return await _transactionRepository.GetMonthlyTransactionAmountsForYearAsync(year, transactionType);
     }
+
+    public async Task<IEnumerable<Transaction>> GetPagedTransactions(int page, int pageSize)
+    {
+        return  await _transactionRepository.GetPagedTransactionsAsync(page, pageSize);
+    }
+
+    public async Task<int> GetTotalTransactionCount()
+    {
+        return await _transactionRepository.GetTotalTransactionCountAsync();
+    }
 }

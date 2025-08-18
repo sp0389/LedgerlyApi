@@ -105,4 +105,18 @@ public class TransactionRepository : ITransactionRepository
             .Select(m => monthlyTransactionAmountsDict.GetValueOrDefault(m, 0))
             .ToList();
     }
+
+    public async Task<IEnumerable<Transaction>> GetPagedTransactionsAsync(int page, int pageSize)
+    {
+        return await _context.Transactions
+            .OrderByDescending(t => t.Date)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalTransactionCountAsync()
+    {
+        return await _context.Transactions.CountAsync();
+    }
 }

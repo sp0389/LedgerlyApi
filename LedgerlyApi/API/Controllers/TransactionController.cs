@@ -46,6 +46,22 @@ public class TransactionController : ControllerBase
         return Ok(transactions);
     }
 
+    //TODO: add route path for paged transactions
+    [HttpGet]
+    public async Task<IActionResult> GetPagedTransactions(int page = 1, int pageSize = 10)
+    {
+        var totalCount = await _transactionService.GetTotalTransactionCount();
+        var pagedTransactions =  await _transactionService.GetPagedTransactions(page, pageSize);
+        
+        return Ok(new PagedTransactionsDto
+        {
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            Transactions = pagedTransactions
+        });
+    }
+
     [HttpPost]
     [Route("CreateTransaction")]
     public async Task<IActionResult> CreateTransaction([FromBody] TransactionDto transaction)
