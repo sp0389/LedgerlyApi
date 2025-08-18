@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LedgerlyApi.API.Controllers;
 
-[AllowAnonymous]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
@@ -19,6 +18,7 @@ public class UserController : ControllerBase
         _logger = logger;
     }
     
+    [AllowAnonymous]
     [HttpPost]
     [Route("Register")]
     public async Task<IActionResult> Register(UserDto userDto)
@@ -43,7 +43,8 @@ public class UserController : ControllerBase
         }
         return BadRequest();
     }
-
+    
+    [AllowAnonymous]
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login(UserDto userDto)
@@ -69,5 +70,12 @@ public class UserController : ControllerBase
         }
 
         return BadRequest();
+    }
+
+    // check if the token isn't expired - will return 401 if it is
+    [Route("validate")]
+    public IActionResult ValidateUserToken()
+    {
+        return Ok();
     }
 }
