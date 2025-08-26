@@ -191,4 +191,9 @@ public class TransactionService : ITransactionService
     {
         return await _transactionRepository.GetTotalTransactionCountAsync();
     }
+
+    public async Task<decimal> GetTotalTransactionBalance()
+    {
+        return await _transactionRepository.GetTotalTransactionBalanceAsync();
+    }
 }

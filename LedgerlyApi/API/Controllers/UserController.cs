@@ -73,7 +73,8 @@ public class UserController : ControllerBase
     }
 
     // check if the token isn't expired - will return 401 if it is
-    [Route("validate")]
+    [HttpGet]
+    [Route("Validate")]
     public IActionResult ValidateUserToken()
     {
         return Ok();

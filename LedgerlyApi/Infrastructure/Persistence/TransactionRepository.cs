@@ -72,11 +72,9 @@ public class TransactionRepository : ITransactionRepository
     
     public async Task<decimal> GetTransactionBalanceAsync(TransactionType transactionType)
     {
-        var expenseTransactions = await _context.Transactions
+        return await _context.Transactions
             .Where(t => t.TransactionType == transactionType)
-            .ToListAsync();
-        var balance = expenseTransactions.Sum(t => t.Amount);
-        return balance;
+            .SumAsync(t => t.Amount);
     }
 
     public async Task<IEnumerable<Transaction>> GetLastFiveTransactionsAsync()
@@ -118,5 +116,11 @@ public class TransactionRepository : ITransactionRepository
     public async Task<int> GetTotalTransactionCountAsync()
     {
         return await _context.Transactions.CountAsync();
+    }
+
+    public async Task<decimal> GetTotalTransactionBalanceAsync()
+    {
+        return await _context.Transactions
+            .SumAsync(t => t.TransactionType == TransactionType.Income ? t.Amount : -t.Amount);
     }
 }

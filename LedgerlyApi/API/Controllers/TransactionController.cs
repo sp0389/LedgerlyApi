@@ -277,4 +277,22 @@ public class TransactionController : ControllerBase
         
         return BadRequest();
     }
+
+    [HttpGet]
+    [Route("TotalBalance")]
+    public async Task<IActionResult> GetTotalTransactionBalance()
+    {
+        try
+        {
+            var transactionBalance = await _transactionService.GetTotalTransactionBalance();
+            return Ok(transactionBalance);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the total transaction balance.");
+        }
+        
+        return BadRequest();
+    }
 }

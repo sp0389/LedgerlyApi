@@ -19,4 +19,5 @@ public interface ITransactionService
     Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYear(int year, TransactionType transactionType);
     Task<IEnumerable<Transaction>> GetPagedTransactions(int page, int pageSize);
     Task<int> GetTotalTransactionCount();
+    Task<decimal> GetTotalTransactionBalance();
 }
