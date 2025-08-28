@@ -47,6 +47,7 @@ public class TransactionController : ControllerBase
     }
 
     //TODO: add route path for paged transactions
+    [Route("Paged")]
     [HttpGet]
     public async Task<IActionResult> GetPagedTransactions(int page = 1, int pageSize = 10)
     {

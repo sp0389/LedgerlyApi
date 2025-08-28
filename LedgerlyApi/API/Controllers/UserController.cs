@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LedgerlyApi.API.Controllers;
 
+[Authorize(Policy = "RequireMemberRole")]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
