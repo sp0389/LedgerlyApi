@@ -11,7 +11,8 @@ public class EntityMapper
         {
             budgetCategory.Property(bc => bc.Title).HasMaxLength(50);
             budgetCategory.Property(bc => bc.Description).HasMaxLength(500);
-            
+            budgetCategory.Property(bc => bc.Version).IsRowVersion();
+
             budgetCategory.HasMany(bc => bc.Transactions)
                 .WithOne(t => t.BudgetCategory)
                 .HasForeignKey(t => t.BudgetCategoryId)
@@ -22,6 +23,7 @@ public class EntityMapper
         {
             transaction.Property(t => t.Title).HasMaxLength(50);
             transaction.Property(t => t.Description).HasMaxLength(500);
+            transaction.Property(t => t.Version).IsRowVersion();
         });
 
         modelBuilder.Entity<User>(user =>

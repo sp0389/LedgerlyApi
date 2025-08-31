@@ -13,6 +13,7 @@ public class Transaction
     public DateTime? EndDate { get; set; }
     public int Occurrences { get; set; }
     public string Description { get; set; } = default!;
+    public byte[] Version { get; set; } = default!;
     public TransactionType TransactionType { get; set; }
     public int? BudgetCategoryId { get; set; }
     public BudgetCategory? BudgetCategory { get; set; }

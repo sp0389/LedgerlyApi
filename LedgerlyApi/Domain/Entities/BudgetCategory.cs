@@ -12,6 +12,7 @@ public class BudgetCategory
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string Description { get; set; } = default!;
+    public byte[] Version { get; set; } = default!;
     public CategoryType CategoryType { get; set; }
     [JsonIgnore]
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
