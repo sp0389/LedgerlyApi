@@ -40,11 +40,11 @@ public abstract class RepeatingSchedule : Schedule
                     }
                 }
 
-                if (frequency == 14)
+                if (frequency is 7 or 14)
                 {
                     currentDate = currentDate.AddDays(frequency);
                 }
-
+                
                 else
                 {
                     currentDate = currentDate.AddMonths(frequency);
@@ -63,7 +63,7 @@ public abstract class RepeatingSchedule : Schedule
                 if (chosenDays.Contains(currentDateCheck.DayOfWeek)) scheduledDates.Add(currentDateCheck);
             }
 
-            if (frequency == 14)
+            if (frequency is 7 or 14)
             {
                 currentDate = currentDate.AddDays(frequency);
             }
@@ -75,6 +75,14 @@ public abstract class RepeatingSchedule : Schedule
         }
 
         return new RecurringSchedule(scheduledDates);
+    }
+}
+
+public class WeeklySchedule : RepeatingSchedule
+{
+    public WeeklySchedule(DateTime startDate, DateTime endDate, int occurrences)
+        : base(startDate, endDate, occurrences)
+    {
     }
 }
 

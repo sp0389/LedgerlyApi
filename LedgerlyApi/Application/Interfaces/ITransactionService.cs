@@ -13,6 +13,7 @@ public interface ITransactionService
     Task<bool> AddTransaction(TransactionDto transaction);
     Task<bool> RemoveTransactionById(int transactionId);
     Task<Transaction> UpdateTransaction(TransactionDto transaction);
+    Task<bool> AddRepeatingWeeklyTransaction(TransactionDto transaction);
     Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transaction);
     Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transaction);
     Task<decimal> GetTransactionBalance(TransactionType transactionType);

@@ -56,15 +56,15 @@ public class TransactionService : ITransactionService
         return await _transactionRepository.RemoveTransactionByIdAsync(transactionId);
     }
 
-    public async Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transactionDto)
+    public async Task<bool> AddRepeatingWeeklyTransaction(TransactionDto transactionDto)
     {
-        MonthlySchedule monthlySchedule =
+        WeeklySchedule weeklySchedule =
             new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
-        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays!, 1);
-
+        var schedule = weeklySchedule.GenerateDates(transactionDto.SelectedDays!, 7);
+        
         return await ProcessTransactions(transactionDto, schedule);
     }
-
+    
     public async Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transactionDto)
     {
         BiWeeklySchedule biWeeklySchedule =
@@ -74,6 +74,15 @@ public class TransactionService : ITransactionService
         return await ProcessTransactions(transactionDto, schedule);
     }
 
+    public async Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transactionDto)
+    {
+        MonthlySchedule monthlySchedule =
+            new(transactionDto.Date, transactionDto.EndDate!.Value, transactionDto.Occurrences);
+        var schedule = monthlySchedule.GenerateDates(transactionDto.SelectedDays!, 1);
+
+        return await ProcessTransactions(transactionDto, schedule);
+    }
+    
     private async Task<bool> ProcessTransactions(TransactionDto transactionDto, RecurringSchedule schedule)
     {
         var transactions = new List<Transaction>();

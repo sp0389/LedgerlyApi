@@ -87,32 +87,32 @@ public class TransactionController : ControllerBase
 
         return BadRequest();
     }
-
+    
     [HttpPost]
-    [Route("CreateMonthlyTransaction")]
-    public async Task<IActionResult> CreateMonthlyTransaction(TransactionDto transaction)
+    [Route("CreateWeeklyTransaction")]
+    public async Task<IActionResult> CreateWeeklyTransaction(TransactionDto transaction)
     {
         if (ModelState.IsValid)
             try
             {
-                var result = await _transactionService.AddRepeatingMonthlyTransaction(transaction);
+                var result = await _transactionService.AddRepeatingWeeklyTransaction(transaction);
 
                 if (result)
                 {
-                    _logger.LogInformation("Successfully created the monthly transactions.");
+                    _logger.LogInformation("Successfully created the weekly transactions.");
                     return Ok();
                 }
             }
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, "There was an error creating the monthly transactions.");
+                _logger.LogError(ex, "There was an error creating the weekly transactions.");
                 ModelState.AddModelError("", ex.Message);
             }
 
         return BadRequest();
     }
-
+    
     [HttpPost]
     [Route("CreateBiWeeklyTransaction")]
     public async Task<IActionResult> CreateBiWeeklyTransaction(TransactionDto transaction)
@@ -132,6 +132,31 @@ public class TransactionController : ControllerBase
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error creating the bi-weekly transactions.");
+                ModelState.AddModelError("", ex.Message);
+            }
+
+        return BadRequest();
+    }
+    
+    [HttpPost]
+    [Route("CreateMonthlyTransaction")]
+    public async Task<IActionResult> CreateMonthlyTransaction(TransactionDto transaction)
+    {
+        if (ModelState.IsValid)
+            try
+            {
+                var result = await _transactionService.AddRepeatingMonthlyTransaction(transaction);
+
+                if (result)
+                {
+                    _logger.LogInformation("Successfully created the monthly transactions.");
+                    return Ok();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There was an error creating the monthly transactions.");
                 ModelState.AddModelError("", ex.Message);
             }
 
@@ -181,6 +206,24 @@ public class TransactionController : ControllerBase
             ModelState.AddModelError("", ex.Message);
         }
 
+        return BadRequest();
+    }
+    
+    [HttpGet]
+    [Route("TotalBalance")]
+    public async Task<IActionResult> GetTotalTransactionBalance()
+    {
+        try
+        {
+            var transactionBalance = await _transactionService.GetTotalTransactionBalance();
+            return Ok(transactionBalance);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the total transaction balance.");
+        }
+        
         return BadRequest();
     }
 
@@ -274,24 +317,6 @@ public class TransactionController : ControllerBase
         {
             ModelState.AddModelError("", ex.Message);
             _logger.LogError(ex, "There was an error getting the monthly expense transaction amounts.");
-        }
-        
-        return BadRequest();
-    }
-
-    [HttpGet]
-    [Route("TotalBalance")]
-    public async Task<IActionResult> GetTotalTransactionBalance()
-    {
-        try
-        {
-            var transactionBalance = await _transactionService.GetTotalTransactionBalance();
-            return Ok(transactionBalance);
-        }
-        catch (Exception ex)
-        {
-            ModelState.AddModelError("", ex.Message);
-            _logger.LogError(ex, "There was an error getting the total transaction balance.");
         }
         
         return BadRequest();
