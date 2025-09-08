@@ -85,4 +85,20 @@ public class UserService : IUserService
 
         return "Invalid Credentials!";
     }
+
+    public string GetUserEmailFromToken(HttpContext httpContext)
+    {
+        if (httpContext.User == null)
+        {
+            return string.Empty;
+        }
+
+        return httpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
+    }
+
+    public async Task<string> GetUserId(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        return user == null ? throw new ApplicationException("Could not find user by ID") : user.Id;
+    }
 }

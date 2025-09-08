@@ -25,15 +25,25 @@ public class BudgetCategoryService : IBudgetCategoryService
         return await _budgetCategoryRepository.GetBudgetCategoryByIdAsync(budgetCategoryId);
     }
 
-    public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto)
+    public async Task<bool> AddBudgetCategory(BudgetCategoryDto budgetCategoryDto, string userId)
     {
-        var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
+        var budgetCategory = CreateBudgetCategory(budgetCategoryDto, userId);
         return await _budgetCategoryRepository.AddBudgetCategoryAsync(budgetCategory);
     }
 
     public async Task<BudgetCategory> UpdateBudgetCategory(BudgetCategoryDto budgetCategoryDto)
     {
-        var budgetCategory = CreateBudgetCategory(budgetCategoryDto);
+        var budgetCategory = new BudgetCategory
+        {
+            Title = budgetCategoryDto.Title,
+            Amount = budgetCategoryDto.Amount,
+            StartDate = budgetCategoryDto.StartDate,
+            EndDate = budgetCategoryDto.EndDate,
+            Description = budgetCategoryDto.Description,
+            CategoryType = budgetCategoryDto.CategoryType,
+            UserId = budgetCategoryDto.UserId,
+        };
+
         return await _budgetCategoryRepository.UpdateBudgetCategoryAsync(budgetCategory);
     }
 
@@ -42,16 +52,17 @@ public class BudgetCategoryService : IBudgetCategoryService
         return await _budgetCategoryRepository.RemoveBudgetCategoryAsync(budgetCategoryId);
     }
 
-    private static BudgetCategory CreateBudgetCategory(BudgetCategoryDto budgetCategoryDto)
+    private BudgetCategory CreateBudgetCategory(BudgetCategoryDto budgetCategoryDto, string userId)
     {
-        BudgetCategory budgetCategory = new()
+        var budgetCategory = new BudgetCategory()
         {
             Title = budgetCategoryDto.Title,
             Amount = budgetCategoryDto.Amount,
             StartDate = budgetCategoryDto.StartDate,
             EndDate = budgetCategoryDto.EndDate,
             Description = budgetCategoryDto.Description,
-            CategoryType = budgetCategoryDto.CategoryType
+            CategoryType = budgetCategoryDto.CategoryType,
+            UserId = userId
         };
         
         budgetCategory.Validate();

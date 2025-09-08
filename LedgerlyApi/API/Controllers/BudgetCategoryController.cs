@@ -2,6 +2,8 @@ using LedgerlyApi.Application.DTO;
 using LedgerlyApi.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LedgerlyApi.Shared;
+using Microsoft.AspNetCore.Identity;
 
 namespace LedgerlyApi.API.Controllers;
 
@@ -12,12 +14,15 @@ public class BudgetCategoryController : ControllerBase
 {
     private readonly IBudgetCategoryService _budgetCategoryService;
     private readonly ILogger<IBudgetCategoryService> _logger;
+    private readonly IUserService _userService;
+
 
     public BudgetCategoryController(IBudgetCategoryService budgetCategoryService,
-        ILogger<IBudgetCategoryService> logger)
+        ILogger<IBudgetCategoryService> logger, IUserService userService)
     {
         _budgetCategoryService = budgetCategoryService;
         _logger = logger;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -29,14 +34,18 @@ public class BudgetCategoryController : ControllerBase
         return Ok(budgetCategories);
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> CreateBudgetCategory([FromBody] BudgetCategoryDto budgetCategory)
+    public async Task<IActionResult> CreateBudgetCategory(BudgetCategoryDto budgetCategory)
     {
         if (ModelState.IsValid)
             try
             {
+                var userEmail = _userService.GetUserEmailFromToken(HttpContext);
+                var userId = await _userService.GetUserId(userEmail);
+
                 var result = await _budgetCategoryService
-                    .AddBudgetCategory(budgetCategory);
+                    .AddBudgetCategory(budgetCategory, userId);
 
                 if (result)
                 {
