@@ -10,19 +10,16 @@ namespace LedgerlyApi.API.Controllers;
 [Authorize(Policy = "RequireMemberRole")]
 [Route("api/[controller]")]
 [ApiController]
-public class BudgetCategoryController : ControllerBase
+public class BudgetCategoryController : BaseController
 {
     private readonly IBudgetCategoryService _budgetCategoryService;
     private readonly ILogger<IBudgetCategoryService> _logger;
-    private readonly IUserService _userService;
-
 
     public BudgetCategoryController(IBudgetCategoryService budgetCategoryService,
-        ILogger<IBudgetCategoryService> logger, IUserService userService)
+        ILogger<IBudgetCategoryService> logger, IUserService userService): base(userService)
     {
         _budgetCategoryService = budgetCategoryService;
         _logger = logger;
-        _userService = userService;
     }
 
     [HttpGet]

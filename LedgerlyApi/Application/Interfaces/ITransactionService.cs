@@ -10,12 +10,12 @@ public interface ITransactionService
     Task<IEnumerable<Transaction>> GetLastFiveTransactions();
     Task<Transaction> GetTransactionsById(int transactionId);
     Task<IEnumerable<Transaction>> GetTransactionsByCategory(CategoryType categoryType);
-    Task<bool> AddTransaction(TransactionDto transaction);
+    Task<bool> AddTransaction(TransactionDto transaction, string userId);
     Task<bool> RemoveTransactionById(int transactionId);
     Task<Transaction> UpdateTransaction(TransactionDto transaction);
-    Task<bool> AddRepeatingWeeklyTransaction(TransactionDto transaction);
-    Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transaction);
-    Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transaction);
+    Task<bool> AddRepeatingWeeklyTransaction(TransactionDto transaction, string userId);
+    Task<bool> AddRepeatingMonthlyTransaction(TransactionDto transaction, string userId);
+    Task<bool> AddRepeatingBiWeeklyTransaction(TransactionDto transaction, string userId);
     Task<decimal> GetTransactionBalance(TransactionType transactionType);
     Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYear(int year, TransactionType transactionType);
     Task<IEnumerable<Transaction>> GetPagedTransactions(int page, int pageSize);

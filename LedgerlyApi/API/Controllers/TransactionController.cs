@@ -9,12 +9,13 @@ namespace LedgerlyApi.API.Controllers;
 [Authorize(Policy = "RequireMemberRole")]
 [Route("api/[controller]")]
 [ApiController]
-public class TransactionController : ControllerBase
+public class TransactionController : BaseController
 {
-    private readonly ILogger<ITransactionService> _logger;
     private readonly ITransactionService _transactionService;
+    private readonly ILogger<ITransactionService> _logger;
 
-    public TransactionController(ITransactionService transactionService, ILogger<ITransactionService> logger)
+    public TransactionController(ITransactionService transactionService, IUserService userService, ILogger<ITransactionService> logger): 
+        base(userService)
     {
         _transactionService = transactionService;
         _logger = logger;
@@ -70,7 +71,9 @@ public class TransactionController : ControllerBase
         if (ModelState.IsValid)
             try
             {
-                var result = await _transactionService.AddTransaction(transaction);
+                var userEmail = _userService.GetUserEmailFromToken(HttpContext);
+                var userId = await _userService.GetUserId(userEmail);
+                var result = await _transactionService.AddTransaction(transaction, userId);
 
                 if (result)
                 {
@@ -95,7 +98,8 @@ public class TransactionController : ControllerBase
         if (ModelState.IsValid)
             try
             {
-                var result = await _transactionService.AddRepeatingWeeklyTransaction(transaction);
+                var userId = await GetCurrentUserIdAsync();
+                var result = await _transactionService.AddRepeatingWeeklyTransaction(transaction, userId);
 
                 if (result)
                 {
@@ -120,7 +124,8 @@ public class TransactionController : ControllerBase
         if (ModelState.IsValid)
             try
             {
-                var result = await _transactionService.AddRepeatingBiWeeklyTransaction(transaction);
+                var userId = await GetCurrentUserIdAsync();
+                var result = await _transactionService.AddRepeatingBiWeeklyTransaction(transaction, userId);
 
                 if (result)
                 {
@@ -145,7 +150,8 @@ public class TransactionController : ControllerBase
         if (ModelState.IsValid)
             try
             {
-                var result = await _transactionService.AddRepeatingMonthlyTransaction(transaction);
+                var userId = await GetCurrentUserIdAsync();
+                var result = await _transactionService.AddRepeatingMonthlyTransaction(transaction, userId);
 
                 if (result)
                 {
