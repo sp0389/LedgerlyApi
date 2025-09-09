@@ -66,13 +66,12 @@ public class TransactionController : BaseController
 
     [HttpPost]
     [Route("CreateTransaction")]
-    public async Task<IActionResult> CreateTransaction([FromBody] TransactionDto transaction)
+    public async Task<IActionResult> CreateTransaction(TransactionDto transaction)
     {
         if (ModelState.IsValid)
             try
             {
-                var userEmail = _userService.GetUserEmailFromToken(HttpContext);
-                var userId = await _userService.GetUserId(userEmail);
+                var userId = await GetCurrentUserIdAsync();
                 var result = await _transactionService.AddTransaction(transaction, userId);
 
                 if (result)

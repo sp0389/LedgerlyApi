@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LedgerlyApi.API.Controllers
 {
-    public class BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
         protected readonly IUserService _userService;
 
