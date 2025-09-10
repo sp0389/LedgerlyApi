@@ -87,20 +87,15 @@ public class TransactionRepository : ITransactionRepository
     public async Task<IEnumerable<decimal>> GetMonthlyTransactionAmountsForYearAsync(int year, 
         TransactionType transactionType)
     {
-        var monthlyTransactionAmounts = await _context.Transactions
+        var monthlyTransactionAmounts = (await _context.Transactions
             .Where(t => t.TransactionType == transactionType && t.Date.Year == year)
             .GroupBy(t => t.Date.Month)
-            .Select(g => new
-            {
-                Month = g.Key,
-                Amount = g.Sum(t => t.Amount)
-            }).ToListAsync();
-        
-        var monthlyTransactionAmountsDict = monthlyTransactionAmounts
+            .Select(g => new { Month = g.Key, Amount = g.Sum(t => t.Amount) })
+            .ToListAsync())
             .ToDictionary(m => m.Month, m => m.Amount);
 
         return Enumerable.Range(1, 12)
-            .Select(m => monthlyTransactionAmountsDict.GetValueOrDefault(m, 0))
+            .Select(m => monthlyTransactionAmounts.GetValueOrDefault(m, 0))
             .ToList();
     }
 
