@@ -1,3 +1,4 @@
+using LedgerlyApi.Application.DTO;
 using LedgerlyApi.Domain.Entities;
 using LedgerlyApi.Domain.Enums;
 
@@ -12,4 +13,5 @@ public interface IBudgetCategoryRepository
     Task<BudgetCategory> GetBudgetCategoryByIdAsync(int budgetCategoryId);
     Task<BudgetCategory> GetBudgetCategoryByCategoryTypeAsync(CategoryType categoryType);
     Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory);
+    Task<IEnumerable<BudgetCategorySummaryDto>> GetBudgetCategorySummaryAsync();
 }

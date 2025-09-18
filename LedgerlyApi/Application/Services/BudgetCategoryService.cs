@@ -78,4 +78,9 @@ public class BudgetCategoryService : IBudgetCategoryService
     {
         return Enum.GetNames<CategoryType>().ToList();
     }
+
+    public async Task<IEnumerable<BudgetCategorySummaryDto>> GetBudgetCategorySummary()
+    {
+        return await _budgetCategoryRepository.GetBudgetCategorySummaryAsync();
+    }
 }

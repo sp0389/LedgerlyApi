@@ -107,7 +107,7 @@ public class BudgetCategoryController : BaseController
     }
 
     [HttpGet]
-    [Route("/BudgetCategoryBalance")]
+    [Route("BudgetCategoryBalance")]
     public async Task<IActionResult> GetBudgetCategoryBalance(int budgetCategoryId)
     {
         try
@@ -133,5 +133,23 @@ public class BudgetCategoryController : BaseController
     {
         var budgetCategoryTypes = _budgetCategoryService.GetAvailableCategoryTypes();
         return Ok(budgetCategoryTypes);
+    }
+    
+    [Route("Summary")]
+    [HttpGet]
+    public async Task<IActionResult> GetBudgetCategorySummary()
+    {
+        try
+        {
+            var budgetCategorySummary = await _budgetCategoryService.GetBudgetCategorySummary();
+            return Ok(budgetCategorySummary);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            _logger.LogError(ex, "There was an error getting the budget category summary.");
+        }
+        
+        return BadRequest();
     }
 }

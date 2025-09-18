@@ -1,3 +1,4 @@
+using LedgerlyApi.Application.DTO;
 using LedgerlyApi.Domain.Interfaces;
 using LedgerlyApi.Domain.Entities;
 using LedgerlyApi.Domain.Enums;
@@ -68,5 +69,17 @@ public class BudgetCategoryRepository : IBudgetCategoryRepository
         
         var transactionTotal = budgetCategoryTransactions.Sum(t => t.Amount);
         return budgetCategory.Amount - transactionTotal;
+    }
+
+    public async Task<IEnumerable<BudgetCategorySummaryDto>> GetBudgetCategorySummaryAsync()
+    {
+        return await _context.BudgetCategories
+            .Select(bc => new BudgetCategorySummaryDto
+            {
+                Id = bc.Id,
+                Title = bc.Title,
+                AvailableAmount = bc.Amount,
+                SpentAmount = bc.Transactions.Sum(t => t.Amount),
+            }).ToListAsync();
     }
 }

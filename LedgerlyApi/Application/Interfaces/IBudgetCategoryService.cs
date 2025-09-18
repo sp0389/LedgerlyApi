@@ -12,4 +12,5 @@ public interface IBudgetCategoryService
     Task<bool> RemoveBudgetCategory(int budgetCategoryId);
     Task<decimal> GetAvailableBudgetCategoryBalance(BudgetCategory budgetCategory);
     IEnumerable<string> GetAvailableCategoryTypes();
+    Task<IEnumerable<BudgetCategorySummaryDto>> GetBudgetCategorySummary();
 }
